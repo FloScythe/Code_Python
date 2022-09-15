@@ -1,16 +1,35 @@
-# This is a sample Python script.
+"""
+Créer un bot :
+	1. Lister les actions à effectuer manuellement
+	2. Coder le programme en brut
+	3. Repartir en fonction
+"""
+"""
+		1.1 Déplacer le curseur sur le minerais
+			1.1.1 Si detection du minerais
+            1.1.2 Sinon retour sur 1.1
+        1.2 Clique
+		1.3 Attendre le temps de la récolte
+        1.4 Boucler
+            1.4.1 Si aucune detection
+                1.4.1.1 Changer de map
+"""
+#Module de controle de la souris
+import pyautogui
+import random
+import time
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+vitesse = random.uniform(0.1,0.9)
+#Deplace le curseur au coordonnée x,y selon un temps donner
+print(vitesse)
+pyautogui.moveTo(100, 100, duration = vitesse)
+#pyautogui.click(100, 100)
+x = random.uniform(0.1,0.9)
+#Deplace le curseur selon son ancienne position
+print(vitesse)
+pyautogui.moveRel(0, 50, duration = vitesse)
+#pyautogui.click(100, 100)
 
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+while True :
+    print(pyautogui.position())
+    time.sleep(2)
