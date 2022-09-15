@@ -23,7 +23,6 @@ vitesse = random.uniform(0.1,0.9)
 #Deplace le curseur au coordonnée x,y selon un temps donner
 print(vitesse)
 pyautogui.moveTo(100, 100, duration = vitesse)
-#pyautogui.click(100, 100)
 x = random.uniform(0.1,0.9)
 #Deplace le curseur selon son ancienne position
 print(vitesse)
