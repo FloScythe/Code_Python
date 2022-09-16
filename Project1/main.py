@@ -18,23 +18,43 @@ Créer un bot :
 import pyautogui
 import random
 import time
+import keyboard
+
 
 vitesse = random.uniform(0.1,0.9)
 
-time .sleep(3)
+time .sleep(1)
 #Deplace le curseur au coordonnée x,y selon un temps donner
-print(vitesse)
 pyautogui.moveTo(100, 100, duration = vitesse)
 
 #Deplace le curseur selon son ancienne position
 # pyautogui.moveRel(0, 50, duration = vitesse)
 
 #pyautogui.click(100, 100)
-z = pyautogui.locateOnScreen('Test.png')
-pyautogui.moveTo(z,duration = vitesse)
+# z = pyautogui.locateOnScreen('fer.png')
+# pyautogui.moveTo(z,duration = vitesse)
 
 
 switch = True
 while switch:
-    print(pyautogui.position())
-    time.sleep(2)
+    vit = random.uniform(0.1, 2)
+    time.sleep(4)
+    if keyboard.is_pressed('q'):
+        switch = False
+        break
+    else :
+        pyautogui.moveTo(-1453, 457, duration=vit)
+        pyautogui.click()
+        time.sleep(vit)
+        pyautogui.moveTo(-1387, 545, duration=vitesse)
+        pyautogui.click()
+        time.sleep(vit)
+        pyautogui.moveTo(-934, 769, duration=vit)
+        pyautogui.click()
+        time.sleep(vit)
+        pyautogui.moveTo(-898, 794, duration=vitesse)
+        pyautogui.click()
+        time.sleep(vit)
+        pyautogui.moveTo(-1657, 859, duration=vitesse)
+        pyautogui.click()
+
