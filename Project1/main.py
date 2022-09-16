@@ -20,15 +20,21 @@ import random
 import time
 
 vitesse = random.uniform(0.1,0.9)
+
+time .sleep(3)
 #Deplace le curseur au coordonnée x,y selon un temps donner
 print(vitesse)
 pyautogui.moveTo(100, 100, duration = vitesse)
-x = random.uniform(0.1,0.9)
-#Deplace le curseur selon son ancienne position
-print(vitesse)
-pyautogui.moveRel(0, 50, duration = vitesse)
-#pyautogui.click(100, 100)
 
-while True :
+#Deplace le curseur selon son ancienne position
+# pyautogui.moveRel(0, 50, duration = vitesse)
+
+#pyautogui.click(100, 100)
+z = pyautogui.locateOnScreen('Test.png')
+pyautogui.moveTo(z,duration = vitesse)
+
+
+switch = True
+while switch:
     print(pyautogui.position())
     time.sleep(2)
