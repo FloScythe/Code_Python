@@ -34,27 +34,33 @@ pyautogui.moveTo(100, 100, duration = vitesse)
 # z = pyautogui.locateOnScreen('fer.png')
 # pyautogui.moveTo(z,duration = vitesse)
 
+liste_x = [-1477,-1404,-986,-948,-1679]
+liste_y = [473,485,683,704,722]
+ressource = 5
 
 switch = True
 while switch:
-    vit = random.uniform(0.1, 2)
+    vit = random.uniform(0.1, 0.5)
     time.sleep(4)
     if keyboard.is_pressed('q'):
         switch = False
         break
     else :
-        pyautogui.moveTo(-1477, 473, duration=vit)
-        pyautogui.click()
-        time.sleep(vit)
-        pyautogui.moveTo(-1404, 485, duration=vitesse)
-        pyautogui.click()
-        time.sleep(vit)
-        pyautogui.moveTo(-986, 683, duration=vit)
-        pyautogui.click()
-        time.sleep(vit)
-        pyautogui.moveTo(-948, 704, duration=vitesse)
-        pyautogui.click()
-        time.sleep(vit)
-        pyautogui.moveTo(-1679, 722, duration=vitesse)
-        pyautogui.click()
-
+        # pyautogui.moveTo(-1477, 473, duration=vit)
+        # pyautogui.click()
+        # time.sleep(vit)
+        # pyautogui.moveTo(-1404, 485, duration=vitesse)
+        # pyautogui.click()
+        # time.sleep(vit)
+        # pyautogui.moveTo(-986, 683, duration=vit)
+        # pyautogui.click()
+        # time.sleep(vit)
+        # pyautogui.moveTo(-948, 704, duration=vitesse)
+        # pyautogui.click()
+        # time.sleep(vit)
+        # pyautogui.moveTo(-1679, 722, duration=vitesse)
+        # pyautogui.click()
+        for i in range(ressource) :
+            pyautogui.moveTo(liste_x[i], liste_y[i], duration=vit)
+            pyautogui.click()
+            time.sleep(vit)
