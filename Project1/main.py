@@ -43,18 +43,18 @@ while switch:
         switch = False
         break
     else :
-        pyautogui.moveTo(-1453, 457, duration=vit)
+        pyautogui.moveTo(-1477, 473, duration=vit)
         pyautogui.click()
         time.sleep(vit)
-        pyautogui.moveTo(-1387, 545, duration=vitesse)
+        pyautogui.moveTo(-1404, 485, duration=vitesse)
         pyautogui.click()
         time.sleep(vit)
-        pyautogui.moveTo(-934, 769, duration=vit)
+        pyautogui.moveTo(-986, 683, duration=vit)
         pyautogui.click()
         time.sleep(vit)
-        pyautogui.moveTo(-898, 794, duration=vitesse)
+        pyautogui.moveTo(-948, 704, duration=vitesse)
         pyautogui.click()
         time.sleep(vit)
-        pyautogui.moveTo(-1657, 859, duration=vitesse)
+        pyautogui.moveTo(-1679, 722, duration=vitesse)
         pyautogui.click()
 
