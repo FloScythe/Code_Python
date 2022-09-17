@@ -20,12 +20,8 @@ import random
 import time
 import keyboard
 
-
-vitesse = random.uniform(0.1,0.9)
-
-time .sleep(1)
 #Deplace le curseur au coordonnée x,y selon un temps donner
-pyautogui.moveTo(100, 100, duration = vitesse)
+# pyautogui.moveTo(-100, 100, duration = random.uniform(0.1,0.9))
 
 #Deplace le curseur selon son ancienne position
 # pyautogui.moveRel(0, 50, duration = vitesse)
@@ -34,21 +30,14 @@ pyautogui.moveTo(100, 100, duration = vitesse)
 # z = pyautogui.locateOnScreen('fer.png')
 # pyautogui.moveTo(z,duration = vitesse)
 
-liste_x = [-1477,-1404,-986,-948,-1679]
-liste_y = [473,485,683,704,722]
+liste_x = [-1464,-1386,-991,-943,-1663]
+liste_y = [483,491,673,691,846]
 ressource = 5
 
-switch = True
-while switch:
+
+while keyboard.is_pressed('q') == False:
     time.sleep(random.uniform(0.1, 1))
-    if keyboard.is_pressed('q'):
-        switch = False
-        break
-    else :
-        for i in range(ressource) :
-            pyautogui.moveTo(liste_x[i], liste_y[i], duration=random.uniform(0.1, 0.5))
-            pyautogui.click()
-            time.sleep(random.uniform(0.1, 0.5))
-            if keyboard.is_pressed('q'):
-                switch = False
-                break
+    for i in range(ressource) :
+        pyautogui.moveTo(liste_x[i], liste_y[i], duration=random.uniform(0.1, 0.5))
+        pyautogui.click()
+        time.sleep(random.uniform(0.1, 0.5))
