@@ -1,19 +1,25 @@
 import pyautogui
-import keyboard
 import time
+from pynput import keyboard
 
-# from python_imagesearch.imagesearch import imagesearch
-# pos = imagesearch("Test.png",precision=0.8)
-# if pos[0] != -1:
-#     print("position : ", pos[0], pos[1])
-#     pyautogui.moveTo(pos[0],pos[1])
-# else:
-#     print("image not found")
+
+def on_press(key):
+    try:
+        print(key.char)
+    except AttributeError:
+        print("Fin de la boucle")
+        return False
+
 
 while True:
-    if keyboard.is_pressed('d'):
-        print(pyautogui.position())
-        time.sleep(1)
-    elif keyboard.is_pressed('q'):
-        print("Fin de la détection")
-        break
+
+    # with keyboard.Listener(on_press=on_press) as listener :
+
+        if listener == 'd':
+            print(pyautogui.position())
+            time.sleep(1)
+        elif listener == 'q':
+            print("Fin de la détection")
+            break
+
+# Collect events until released
