@@ -9,5 +9,6 @@ import time
 # else:
 #     print("image not found")
 
-z = pyautogui.locateOnScreen("Pos1.png",confidence = 0.8)
+
+z = pyautogui.locateOnScreen("Pos1.png",confidence = 0.5)
 pyautogui.moveTo(z)
