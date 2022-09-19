@@ -2,7 +2,8 @@ import pyautogui
 import keyboard
 import time
 
-pyautogui.moveTo(1792,431)
+z = pyautogui.locateOnScreen("invoc1.png",grayscale=False,confidence = 0.5)
+pyautogui.moveTo(z)
 pyautogui.click()
 
 z1 = pyautogui.locateOnScreen("Pos1.png",grayscale=False,confidence = 0.5)
