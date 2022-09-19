@@ -30,14 +30,14 @@ import keyboard
 # z = pyautogui.locateOnScreen('fer.png')
 # pyautogui.moveTo(z,duration = vitesse)
 
-liste_x = [-1464,-1386,-991,-943,-1663]
-liste_y = [483,491,673,691,846]
-ressource = 5
+liste_x = [-2049,-1987,-1885,-1827,-1720,-1674,-1576,-1486,-1356,-1235,-1183,-1138,-1082,-1353]
+liste_y = [902,821,631,607,557,533,490,493,528,608,635,691,729,744]
+ressource = 13
 
 
 while keyboard.is_pressed('q') == False:
-    time.sleep(random.uniform(0.1, 1))
-    for i in range(ressource) :
-        pyautogui.moveTo(liste_x[i], liste_y[i], duration=random.uniform(0.1, 0.5))
+    time.sleep(random.uniform(0.1, 0.5))
+    for i in range(ressource+1) :
+        pyautogui.moveTo(liste_x[i], liste_y[i], duration=random.uniform(0.1, 0.3))
         pyautogui.click()
-        time.sleep(random.uniform(0.1, 0.5))
+        time.sleep(random.uniform(0.1, 0.3))
