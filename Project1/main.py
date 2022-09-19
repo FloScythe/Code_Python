@@ -30,9 +30,9 @@ import keyboard
 # z = pyautogui.locateOnScreen('fer.png')
 # pyautogui.moveTo(z,duration = vitesse)
 
-liste_x = [-2049,-1987,-1885,-1827,-1720,-1674,-1576,-1486,-1356,-1235,-1183,-1138,-1082,-1353]
-liste_y = [902,821,631,607,557,533,490,493,528,608,635,691,729,744]
-ressource = 13
+liste_x = [472,579,636,693,784,838,1001,1055,1091,1205,1255,1460]
+liste_y = [876,823,799,767,719,689,604,580,578,499,465,471]
+ressource = 11
 
 
 while keyboard.is_pressed('q') == False:
