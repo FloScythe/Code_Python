@@ -1,4 +1,6 @@
 import pyautogui
+import keyboard
+import time
 
-pyautogui.locateOnScreen("rand.png",confidence = 0.8)
-pyautogui.mov
+z = pyautogui.locateOnScreen("Pos1.png",confidence = 0.5)
+pyautogui.moveTo(z)
