@@ -6,13 +6,11 @@ Créer un bot :
 """
 """
 		1.1 Déplacer le curseur sur le minerais
-			1.1.1 Si detection du minerais
-            1.1.2 Sinon retour sur 1.1
         1.2 Clique
-		1.3 Attendre le temps de la récolte
         1.4 Boucler
-            1.4.1 Si aucune detection
-                1.4.1.1 Changer de map
+        1.5 Combat
+            Spam invoc
+            
 """
 #Module de controle de la souris
 import pyautogui
