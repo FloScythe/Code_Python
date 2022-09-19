@@ -8,4 +8,4 @@ while True:
         time.sleep(1)
     elif keyboard.is_pressed('q'):
         print("Fin de la détection")
-        breakd
+        break
