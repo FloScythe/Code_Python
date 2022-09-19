@@ -4,18 +4,33 @@ import time
 import keyboard
 
 
+def souris(nom):
+    z = pyautogui.locateOnScreen(nom, confidence=0.8)
+    pyautogui.moveTo(z, duration=random.uniform(0.1, 0.3))
+    pyautogui.click()
+    time.sleep(1)
+
+
+def sell():
+    souris("Ressource/Inventaire.png")
+    souris("Ressource/Ressource_Inventaire.png")
+    souris("Ressource/fer.png")
+    souris("Ressource/hdv.png")
+    souris("Ressource/QTE100.png")
+    souris("Ressource/Entrer.png")
+    souris("Ressource/Mettre_en_vente.png")
+    souris("Ressource/Vente.png")
+    souris("Combat/Quit.png")
+
+
 def combat():
     if pyautogui.locateOnScreen("Combat/Pret.png", grayscale=True, confidence=0.8) or pyautogui.locateOnScreen(
             "Combat/Findetour.png", grayscale=True, confidence=0.8):
 
-        p = pyautogui.locateOnScreen("Combat/Pret.png", confidence=0.8)
-        pyautogui.moveTo(p, duration=random.uniform(0.1, 0.3))
-        pyautogui.click()
+        souris("Combat/Pret.png")
 
         while True:
-            z = pyautogui.locateOnScreen("Combat/invoc1.png", confidence=0.8)
-            pyautogui.moveTo(z, duration=random.uniform(0.1, 0.3))
-            pyautogui.click()
+            souris("Combat/invoc1.png")
 
             time.sleep(random.uniform(0.1, 0.2))
 
@@ -30,22 +45,16 @@ def combat():
 
             time.sleep(random.uniform(0.1, 0.2))
 
-            z5 = pyautogui.locateOnScreen("Combat/invoc2.png", confidence=0.8)
-            pyautogui.moveTo(z5, duration=random.uniform(0.1, 0.3))
-            pyautogui.click()
+            souris("Combat/invoc2.png")
             pyautogui.click()
             time.sleep(0.5)
 
             if pyautogui.pixelMatchesColor(1794, 429, (36, 48, 18)):
-                z6 = pyautogui.locateOnScreen("Combat/Findetour.png", confidence=0.8)
-                pyautogui.moveTo(z6, duration=random.uniform(0.1, 0.3))
-                pyautogui.click()
+                souris("Combat/Findetour.png")
                 time.sleep(1)
 
             if pyautogui.locateOnScreen("Combat/Quit.png", confidence=0.8):
-                z7 = pyautogui.locateOnScreen("Combat/Quit.png", confidence=0.8)
-                pyautogui.moveTo(z7, duration=random.uniform(0.1, 0.3))
-                pyautogui.click()
+                souris("Combat/Quit.png")
                 break
             elif keyboard.is_pressed("q"):
                 break
@@ -53,38 +62,40 @@ def combat():
 
 def level_up():
     # Detection en cas de level up
-    level_up = pyautogui.locateOnScreen("level_up.png", confidence=0.8)
-    pyautogui.moveTo(level_up, duration=random.uniform(0.1, 0.3))
-    pyautogui.click()
+    if pyautogui.locateOnScreen("level_up.png", confidence=0.8):
+        level_up = pyautogui.locateOnScreen("level_up.png", confidence=0.8)
+        pyautogui.moveTo(level_up, duration=random.uniform(0.1, 0.3))
+        pyautogui.click()
 
 
 # Map 1
-liste_x_1 = [895, 1100, 1161, 1563, 1616]
-liste_y_1 = [726, 430, 457, 637, 665]
+liste_x_1 = [936, 1205, 1267, 1810, 1876]
+liste_y_1 = [804, 414, 429, 691, 716]
 ressource_1 = len(liste_x_1)
-repos1 = ressource_1*random.uniform(12,12.5)
+repos1 = 4 * random.uniform(12, 12.5)
+
 # Map 2
-liste_x_2 = [1527, 1475, 1433, 1167, 1002, 941, 802, 743, 481, 442]
-liste_y_2 = [746, 724, 703, 562, 496, 527, 586, 619, 738, 758]
+liste_x_2 = [1755, 1681, 1606, 1286, 1039, 996, 811, 729, 386, 315]
+liste_y_2 = [798, 763, 734, 581, 558, 524, 602, 644, 818, 858]
 ressource_2 = len(liste_x_2)
-repos2 = ressource_2*random.uniform(12,12.5)
+repos2 = 4 * random.uniform(12, 12.5)
+
 # Map 3
-liste_x_3 = [1356, 1305, 1265, 1138, 1083, 501, 434]
-liste_y_3 = [589, 568, 554, 526, 562, 645, 677]
+liste_x_3 = [1551, 1481, 1408, 1274, 1192, 395, 327]
+liste_y_3 = [644, 609, 576, 542, 582, 708, 750]
 ressource_3 = len(liste_x_3)
-repos3 = ressource_3*random.uniform(12,12.5)
+repos3 = 4 * random.uniform(12, 12.5)
 
 # Trajet
-go_out_0 = [923, 626]
-go_out_1 = [563, 800]
-go_out_2 = [710, 668]  # Map vide
+go_out_0 = [979, 677]
+go_out_1 = [493, 905]
+go_out_2 = [686, 730]  # Map vide
 
-go_back_2 = [1444, 878]
-go_back_1 = [1317, 971]  # Map vide
-go_back_0 = [1317, 971]
+go_back_2 = [1635, 999]
+go_back_1 = [1499, 1132]  # Map vide
+go_back_0 = [1511, 1073]
 
-
-while keyboard.is_pressed('q') == True:
+while keyboard.is_pressed('q') == False:
     time.sleep(5)
     # Map 1
     for i in range(ressource_1):
@@ -109,29 +120,30 @@ while keyboard.is_pressed('q') == True:
         pyautogui.click()
         time.sleep(random.uniform(0.1, 0.3))
         level_up()
-        Combat
+        combat()
     time.sleep(repos2)
+
     pyautogui.moveTo(go_out_1[0], go_out_1[1], duration=random.uniform(0.1, 0.3))
     pyautogui.click()
     time.sleep(5)
 
-    #Entree map vide
+    # Entree map vide
     pyautogui.moveTo(go_out_2[0], go_out_2[1], duration=random.uniform(0.1, 0.3))
     pyautogui.click()
     time.sleep(6)
-    #Sorti map vide
+    # Sorti map vide
 
     if keyboard.is_pressed('q'):
         print("Interruption de la boucle")
         break
 
-    #Map 3
+    # Map 3
     for i in range(ressource_3):
         pyautogui.moveTo(liste_x_3[i], liste_y_3[i], duration=random.uniform(0.1, 0.3))
         pyautogui.click()
         time.sleep(random.uniform(0.1, 0.3))
         level_up()
-        Combat
+        combat()
     time.sleep(repos3)
 
     pyautogui.moveTo(go_back_2[0], go_back_2[1], duration=random.uniform(0.1, 0.3))
@@ -147,21 +159,15 @@ while keyboard.is_pressed('q') == True:
         pyautogui.click()
         time.sleep(random.uniform(0.1, 0.3))
         level_up()
-        Combat
+        combat()
     time.sleep(repos2)
-
-    pyautogui.moveTo(go_back_1[0], go_back_1[1], duration=random.uniform(0.1, 0.3))
-    pyautogui.click()
-    time.sleep(5)
-
-    # Map 1
-    for i in range(ressource_1):
-        pyautogui.moveTo(liste_x_2[i], liste_y_2[i], duration=random.uniform(0.1, 0.3))
-        pyautogui.click()
-        time.sleep(random.uniform(0.1, 0.3))
-        level_up()
-        Combat
-    time.sleep(repos1)
 
     pyautogui.moveTo(go_back_0[0], go_back_0[1], duration=random.uniform(0.1, 0.3))
     pyautogui.click()
+
+    souris("Ressource/Inventaire.png")
+    if pyautogui.locateOnScreen("Ressource/Alerte_full.png", confidence=0.8):
+        souris("Ressource/Inventaire.png")
+        sell()
+    else:
+        souris("Ressource/Inventaire.png")
