@@ -11,7 +11,7 @@ import time
 import keyboard
 
 #Map 1
-liste_x_1 = [895,1100,1161,1563,1616,]
+liste_x_1 = [895,1100,1161,1563,1616]
 liste_y_1 = [726,430,457,637,665]
 ressource_1 = len(liste_x_1)
 
