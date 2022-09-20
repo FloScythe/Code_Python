@@ -94,10 +94,6 @@ Test_ressource_1 = len(Test_x_1)
 Test_go_out_0 = [979, 677]
 Test_go_back_0 = [1511, 1073]
 
-minerai = input("Quel minerai à prendre ?")
-mouvement(2264, 1268)
-
-
 while not keyboard.is_pressed('q'):
     time.sleep(random.uniform(0.2, 0.3))
     # Map 1

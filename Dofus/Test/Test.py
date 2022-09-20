@@ -1,22 +1,31 @@
-import pyautogui
 import random
 import time
-import keyboard
+
+import pyautogui
 
 
-# Trajet
-go_out_0 = [979, 677]
-go_out_1 = [493, 905]
-go_out_2 = [686, 730]  # Map vide
-
-go_back_2 = [1635, 999]
-go_back_1 = [1499, 1132]  # Map vide
-go_back_0 = [1511, 1073]
-
-
-def mouvement(x,y):
-    pyautogui.moveTo(x,y, duration=random.uniform(0.1, 0.3))
+def souris(nom):
+    z = pyautogui.locateOnScreen(nom, confidence=0.8)
+    pyautogui.moveTo(z, duration=random.uniform(0.1, 0.3))
     pyautogui.click()
-    time.sleep(6)
+    time.sleep(1)
 
-mouvement(go_out_0[0],go_out_0[1])
+
+def sell(x):
+    souris("Ressource/Inventaire.png")
+    souris("Ressource/Ressource_Inventaire.png")
+    souris(x)
+    souris("Ressource/hdv.png")
+    souris("Ressource/QTE100.png")
+    souris("Ressource/Entrer.png")
+    souris("Ressource/Mettre_en_vente.png")
+    souris("Ressource/Vente.png")
+    souris("Combat/Quit.png")
+
+
+souris("../Ressource/Inventaire.png")
+if pyautogui.locateOnScreen("../Ressource/Alerte_full.png", confidence=0.8):
+    souris("../Ressource/Inventaire.png")
+    sell("../Ressource/Cuivre.png")
+else:
+    souris("../Ressource/Inventaire.png")
