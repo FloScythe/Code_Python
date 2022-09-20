@@ -73,3 +73,15 @@ def recolte(x, y):
         pass
     else:
         time.sleep(15)
+
+
+def sell(x):
+    souris("../Ressource/Inventaire.png")
+    souris("../Ressource/Ressource_Inventaire.png")
+    souris(x)
+    souris("../Ressource/hdv.png")
+    souris("../Ressource/QTE100.png")
+    souris("../Ressource/Entrer.png")
+    souris("../Ressource/Mettre_en_vente.png")
+    souris("../Ressource/Vente.png")
+    souris("../Combat/Quit.png")

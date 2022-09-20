@@ -1,8 +1,3 @@
-import random
-import time
-import pyautogui
-
-
-
+from Code_Python.Dofus.Function import sell
 
 sell("../Ressource/Cuivre.png")
