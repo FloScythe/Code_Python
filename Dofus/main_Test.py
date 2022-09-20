@@ -11,10 +11,15 @@ def souris(nom):
     time.sleep(1)
 
 
-def sell():
+def mouvement(x,y):
+    pyautogui.moveTo(x, y, duration=random.uniform(0.1, 0.3))
+    pyautogui.click()
+
+
+def sell(x):
     souris("Ressource/Inventaire.png")
     souris("Ressource/Ressource_Inventaire.png")
-    souris("Ressource/fer.png")
+    souris(x)
     souris("Ressource/hdv.png")
     souris("Ressource/QTE100.png")
     souris("Ressource/Entrer.png")
@@ -69,96 +74,140 @@ def level_up():
 
 
 def recolte(x, y):
-    time.sleep(0.5)
     pyautogui.moveTo(x, y, duration=random.uniform(0.1, 0.3))
     pyautogui.click()
-    time.sleep(0.5)
-    if pyautogui.locateOnScreen("Ressource/Fenetre_vide.png", confidence=0.7):
-        time.sleep(2)
+    time.sleep(1)
+    if pyautogui.locateOnScreen("Ressource/Fenetre_vide.png", confidence=0.6):
+        time.sleep(0.5)
         pass
     else:
         time.sleep(12)
     level_up()
     combat()
 
-
+#----Fer----
 # Map 1
-liste_x_1 = [936, 1205, 1267, 1810, 1876]
-liste_y_1 = [804, 414, 429, 691, 716]
-ressource_1 = len(liste_x_1)
-repos1 = 4 * random.uniform(12, 12.5)
+fer_x_1 = [936, 1205, 1267, 1810, 1876]
+fer_y_1 = [804, 414, 429, 691, 716]
+fer_ressource_1 = len(fer_x_1)
+fer_go_out_0 = [979, 677]
+fer_go_back_0 = [1511, 1073]
+# Map 2
+fer_x_2 = [1755, 1681, 1606, 1286, 1039, 996, 811, 729, 386, 315]
+fer_y_2 = [798, 763, 734, 581, 558, 524, 602, 644, 818, 858]
+fer_ressource_2 = len(fer_x_2)
+fer_go_out_1 = [493, 905]
+fer_go_back_1 = [1499, 1132]  # Map vide
+# Map 3
+fer_x_3 = [1551, 1481, 1408, 1274, 1192, 395, 327]
+fer_y_3 = [644, 609, 576, 542, 582, 708, 750]
+fer_ressource_3 = len(fer_x_3)
+fer_go_out_2 = [686, 730]  # Map vide
+fer_go_back_2 = [1635, 999]
+
+#----Cuivre----
+# Map 1
+cuivre_x_1 = [525,448,525,784,863,1143,1268,1348,1534,1601]
+cuivre_y_1 = [970,562,516,392,362,321,370,412,445,413]
+cuivre_ressource_1 = len(cuivre_x_1)
+
 
 # Map 2
-liste_x_2 = [1755, 1681, 1606, 1286, 1039, 996, 811, 729, 386, 315]
-liste_y_2 = [798, 763, 734, 581, 558, 524, 602, 644, 818, 858]
-ressource_2 = len(liste_x_2)
-repos2 = 4 * random.uniform(12, 12.5)
+cuivre_x_2 = [876,946]
+cuivre_y_2 = [323,346]
+cuivre_ressource_2 = len(cuivre_x_2)
+
 
 # Map 3
-liste_x_3 = [1551, 1481, 1408, 1274, 1192, 395, 327]
-liste_y_3 = [644, 609, 576, 542, 582, 708, 750]
-ressource_3 = len(liste_x_3)
-repos3 = 4 * random.uniform(12, 12.5)
+cuivre_x_3 = [1883,1741,1632,1276,1123,1062,666,595,253,194]
+cuivre_y_3 = [945,588,595,389,413,437,482,446,579,604]
+cuivre_ressource_3 = len(cuivre_x_3)
 
-# Trajet
-go_out_0 = [979, 677]
-go_out_1 = [493, 905]
-go_out_2 = [686, 730]  # Map vide
+cuivre_sortie_0 = [619, 561]
+cuivre_sortie_1 = [562,530]
+cuivre_retour_1 = [1984, 1245]
+cuivre_retour_0 = [1578,1238]
 
-go_back_2 = [1635, 999]
-go_back_1 = [1499, 1132]  # Map vide
-go_back_0 = [1511, 1073]
+minerai = input("Quel minerai à prendre ?")
+mouvement(2264, 1268)
 
-while not keyboard.is_pressed('q'):
-    pyautogui.moveTo(2264,1268, duration=random.uniform(0.1, 0.3))
-    pyautogui.click()
-    time.sleep(random.uniform(0.2, 0.3))
-    # Map 1
-    for i in range(ressource_1):
-        recolte(liste_x_1[i], liste_y_1[i])
+if minerai == "Fer" or minerai == "fer":
+    while not keyboard.is_pressed('q'):
+        time.sleep(random.uniform(0.2, 0.3))
+        # Map 1
+        for i in range(fer_ressource_1):
+            recolte(fer_x_1[i], fer_y_1[i])
+        # Map 1 - Sortie
+        mouvement(fer_go_out_0[0], fer_go_out_0[1])
+        time.sleep(6)
+        # Map 2
+        for i in range(fer_ressource_2):
+            recolte(fer_x_2[i], fer_y_2[i])
+        # Map 2 - Sortie
+        mouvement(fer_go_out_1[0], fer_go_out_1[1])
+        time.sleep(6)
+        # Entree map vide
+        mouvement(fer_go_out_2[0], fer_go_out_2[1])
+        time.sleep(6)
+        # Sorti map vide
+        # Map 3
+        for i in range(fer_ressource_3):
+            recolte(fer_x_3[i], fer_y_3[i])
+        # Map 3 - Sortie
+        mouvement(fer_go_back_2[0], fer_go_back_2[1])
+        time.sleep(6)
+        # Map vide - Sortie
+        mouvement(fer_go_back_1[0], fer_go_back_1[1])
+        time.sleep(6)
 
-    pyautogui.moveTo(go_out_0[0], go_out_0[1], duration=random.uniform(0.1, 0.3))
-    pyautogui.click()
-    time.sleep(6)
+        # Map 2
+        for i in range(fer_ressource_2):
+            recolte(fer_x_2[i], fer_y_2[i])
 
-    # Map 2
-    for i in range(ressource_2):
-        recolte(liste_x_2[i], liste_y_2[i])
+        mouvement(fer_go_back_0[0], fer_go_back_0[1])
+        time.sleep(5)
 
-    pyautogui.moveTo(go_out_1[0], go_out_1[1], duration=random.uniform(0.1, 0.3))
-    pyautogui.click()
-    time.sleep(6)
-
-    # Entree map vide
-    pyautogui.moveTo(go_out_2[0], go_out_2[1], duration=random.uniform(0.1, 0.3))
-    pyautogui.click()
-    time.sleep(6)
-    # Sorti map vide
-
-
-    # Map 3
-    for i in range(ressource_3):
-        recolte(liste_x_3[i], liste_y_3[i])
-
-    pyautogui.moveTo(go_back_2[0], go_back_2[1], duration=random.uniform(0.1, 0.3))
-    pyautogui.click()
-    time.sleep(6)
-
-    pyautogui.moveTo(go_back_1[0], go_back_1[1], duration=random.uniform(0.1, 0.3))
-    pyautogui.click()
-    time.sleep(6)
-
-    # Map 2
-    for i in range(ressource_2):
-        recolte(liste_x_2[i], liste_y_2[i])
-
-    pyautogui.moveTo(go_back_0[0], go_back_0[1], duration=random.uniform(0.1, 0.3))
-    pyautogui.click()
-    time.sleep(5)
-
-    souris("Ressource/Inventaire.png")
-    if pyautogui.locateOnScreen("Ressource/Alerte_full.png", confidence=0.8):
         souris("Ressource/Inventaire.png")
-        sell()
-    else:
+        if pyautogui.locateOnScreen("Ressource/Alerte_full.png", confidence=0.8):
+            souris("Ressource/Inventaire.png")
+            sell("Ressource/Fer.png")
+        else:
+            souris("Ressource/Inventaire.png")
+
+elif minerai == "Cuivre" or minerai == "cuivre":
+    while not keyboard.is_pressed('q'):
+        time.sleep(random.uniform(0.2, 0.3))
+        # Map 1
+        for i in range(cuivre_ressource_1):
+            recolte(cuivre_x_1[i], cuivre_y_1[i])
+        # Map 1 - Sortie
+        mouvement(cuivre_sortie_0[0], cuivre_sortie_0[1])
+        time.sleep(6)
+
+        # Map 2
+        for i in range(cuivre_ressource_2):
+            recolte(cuivre_x_2[i], cuivre_y_2[i])
+        # Map 2 - Sortie
+        mouvement(cuivre_sortie_1[0], cuivre_sortie_1[1])
+        time.sleep(6)
+
+        # Map 3
+        for i in range(cuivre_ressource_3):
+            recolte(cuivre_x_3[i], cuivre_y_3[i])
+        # Map 3 - Sortie
+        mouvement(cuivre_retour_1[0], cuivre_retour_1[1])
+        time.sleep(6)
+
+        # Map 2
+        for i in range(cuivre_ressource_2):
+            recolte(cuivre_x_2[i], cuivre_y_2[i])
+        # Map 2 - Sortie
+        mouvement(cuivre_retour_0[0], cuivre_retour_0[1])
+        time.sleep(6)
+
         souris("Ressource/Inventaire.png")
+        if pyautogui.locateOnScreen("Ressource/Alerte_full.png", confidence=0.8):
+            souris("Ressource/Inventaire.png")
+            sell("Ressource/Cuivre.png")
+        else:
+            souris("Ressource/Inventaire.png")
