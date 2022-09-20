@@ -62,10 +62,24 @@ def combat():
 
 def level_up():
     # Detection en cas de level up
-    if pyautogui.locateOnScreen("level_up.png", confidence=0.8):
-        level_up = pyautogui.locateOnScreen("level_up.png", confidence=0.8)
-        pyautogui.moveTo(level_up, duration=random.uniform(0.1, 0.3))
+    if pyautogui.locateOnScreen("Combat/Quit.png", confidence=0.8):
+        up = pyautogui.locateOnScreen("Combat/Quit.png", confidence=0.8)
+        pyautogui.moveTo(up, duration=random.uniform(0.1, 0.3))
         pyautogui.click()
+
+
+def recolte(x, y):
+    time.sleep(0.5)
+    pyautogui.moveTo(x, y, duration=random.uniform(0.1, 0.3))
+    pyautogui.click()
+    time.sleep(0.5)
+    if pyautogui.locateOnScreen("Ressource/Fenetre_vide.png", confidence=0.7):
+        time.sleep(2)
+        pass
+    else:
+        time.sleep(12)
+    level_up()
+    combat()
 
 
 # Map 1
@@ -95,20 +109,17 @@ go_back_2 = [1635, 999]
 go_back_1 = [1499, 1132]  # Map vide
 go_back_0 = [1511, 1073]
 
-while keyboard.is_pressed('q') == False:
-    time.sleep(5)
+while not keyboard.is_pressed('q'):
+    pyautogui.moveTo(2264,1268, duration=random.uniform(0.1, 0.3))
+    pyautogui.click()
+    time.sleep(random.uniform(0.2, 0.3))
     # Map 1
     for i in range(ressource_1):
-        pyautogui.moveTo(liste_x_1[i], liste_y_1[i], duration=random.uniform(0.1, 0.3))
-        pyautogui.click()
-        time.sleep(random.uniform(0.1, 0.3))
-        level_up()
-        combat()
-    time.sleep(repos1)
+        recolte(liste_x_1[i], liste_y_1[i])
 
     pyautogui.moveTo(go_out_0[0], go_out_0[1], duration=random.uniform(0.1, 0.3))
     pyautogui.click()
-    time.sleep(5)
+    time.sleep(6)
 
     if keyboard.is_pressed('q'):
         print("Interruption de la boucle")
@@ -116,16 +127,11 @@ while keyboard.is_pressed('q') == False:
 
     # Map 2
     for i in range(ressource_2):
-        pyautogui.moveTo(liste_x_2[i], liste_y_2[i], duration=random.uniform(0.1, 0.3))
-        pyautogui.click()
-        time.sleep(random.uniform(0.1, 0.3))
-        level_up()
-        combat()
-    time.sleep(repos2)
+        recolte(liste_x_2[i], liste_y_2[i])
 
     pyautogui.moveTo(go_out_1[0], go_out_1[1], duration=random.uniform(0.1, 0.3))
     pyautogui.click()
-    time.sleep(5)
+    time.sleep(6)
 
     # Entree map vide
     pyautogui.moveTo(go_out_2[0], go_out_2[1], duration=random.uniform(0.1, 0.3))
@@ -139,31 +145,23 @@ while keyboard.is_pressed('q') == False:
 
     # Map 3
     for i in range(ressource_3):
-        pyautogui.moveTo(liste_x_3[i], liste_y_3[i], duration=random.uniform(0.1, 0.3))
-        pyautogui.click()
-        time.sleep(random.uniform(0.1, 0.3))
-        level_up()
-        combat()
-    time.sleep(repos3)
+        recolte(liste_x_3[i], liste_y_3[i])
 
     pyautogui.moveTo(go_back_2[0], go_back_2[1], duration=random.uniform(0.1, 0.3))
     pyautogui.click()
-    time.sleep(5)
+    time.sleep(6)
+
     pyautogui.moveTo(go_back_1[0], go_back_1[1], duration=random.uniform(0.1, 0.3))
     pyautogui.click()
-    time.sleep(5)
+    time.sleep(6)
 
     # Map 2
     for i in range(ressource_2):
-        pyautogui.moveTo(liste_x_2[i], liste_y_2[i], duration=random.uniform(0.1, 0.3))
-        pyautogui.click()
-        time.sleep(random.uniform(0.1, 0.3))
-        level_up()
-        combat()
-    time.sleep(repos2)
+        recolte(liste_x_2[i], liste_y_2[i])
 
     pyautogui.moveTo(go_back_0[0], go_back_0[1], duration=random.uniform(0.1, 0.3))
     pyautogui.click()
+    time.sleep(5)
 
     souris("Ressource/Inventaire.png")
     if pyautogui.locateOnScreen("Ressource/Alerte_full.png", confidence=0.8):
