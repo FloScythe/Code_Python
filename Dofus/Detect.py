@@ -9,6 +9,9 @@ while True:
         x, y = pyautogui.position()
         r, g, b = pyautogui.pixel(x, y)
         print(pyautogui.position(), r, g, b)
+        x, y = pyautogui.position()
+        r,g,b = pyautogui.pixel(x, y)
+        print(pyautogui.position(),r,g,b)
         time.sleep(1)
     elif keyboard.is_pressed('q'):
         print("Fin de la détection")
