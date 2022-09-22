@@ -77,7 +77,10 @@ def sell(x):
     souris(x)
     souris("../Ressource/hdv.png")
     souris("../Ressource/QTE100.png")
-    souris("../Ressource/Entrer.png")
-    souris("../Ressource/Mettre_en_vente.png")
-    souris("../Ressource/Vente.png")
-    souris("../Combat/Quit.png")
+    if pyautogui.locateOnScreen("../Ressource/Entrer.png"):
+        souris("../Ressource/Entrer.png")
+        souris("../Ressource/Mettre_en_vente.png")
+        souris("../Ressource/Vente.png")
+        souris("../Combat/Quit.png")
+    else:
+        souris("../Combat/Quit.png")
