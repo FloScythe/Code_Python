@@ -20,7 +20,7 @@ from Function import souris
 # ressource_1 = len(liste_x_1)
 
 
-while keyboard.is_pressed('q') == False:
+while not keyboard.is_pressed('q'):
     time.sleep(random.uniform(0.1, 0.5))
     # for i in range(ressource_1):
         # pyautogui.moveTo(liste_x_1[i], liste_y_1[i], duration=random.uniform(0.1, 0.3))
