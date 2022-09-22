@@ -27,43 +27,41 @@ def level_up():
         pyautogui.click()
 
 
-def combat(x1, y1, x2, y2):
+def combat(x1, y1, x2, y2, x3, y3):
     if pyautogui.locateOnScreen("../Combat/Pret.png", grayscale=True, confidence=0.8) or pyautogui.locateOnScreen(
             "../Combat/Findetour.png", grayscale=True, confidence=0.8):
 
         souris("../Combat/Pret.png")
 
         while True:
-            souris("../Combat/invoc_bouf.png")
-            if not pyautogui.pixelMatchesColor(x1, y1, (36, 48, 18)):
+            if pyautogui.pixelMatchesColor(x1, y1, (73, 97, 37)):
                 souris("../Combat/invoc_sanglier.png")
+                souris("../Combat/invoc2.png")
                 pyautogui.click()
-            elif not pyautogui.pixelMatchesColor(x1, y1, (26, 50, 56)):
+            elif pyautogui.pixelMatchesColor(x2, y2, (46, 93, 107)):
+                souris("../Combat/invoc_bouf.png")
+                souris("../Combat/invoc2.png")
+                pyautogui.click()
+            elif pyautogui.pixelMatchesColor(x3, y3, (73, 97, 37)):
+                souris("../Combat/invoc_tofu.png")
                 souris("../Combat/invoc2.png")
                 pyautogui.click()
             else:
-                souris("../Combat/invoc1.png")
-                time.sleep(random.uniform(0.1, 0.2))
-                # z1 = pyautogui.locateOnScreen("../Combat/Pos1.png", grayscale=False, confidence=0.6)
-                # z2 = pyautogui.locateOnScreen("../Combat/Pos2.png", grayscale=False, confidence=0.6)
-                # z3 = pyautogui.locateOnScreen("../Combat/Pos3.png", grayscale=False, confidence=0.6)
-                # z4 = pyautogui.locateOnScreen("../Combat/Pos4.png", grayscale=False, confidence=0.6)
-                if not pyautogui.pixelMatchesColor(x2, y2, (36, 48, 18)):
-                    souris("../Combat/invoc2.png")
-                    pyautogui.click()
-                else:
-                    z = pyautogui.locateOnScreen("../Combat/Deplacement.png", confidence=0.8)
-                    pyautogui.moveTo(z, duration=random.uniform(0.1, 0.3))
-                    pyautogui.click(clicks=2)
-                    time.sleep(0.5)
-                    souris("../Combat/Findetour.png")
-                    time.sleep(1)
+                z = pyautogui.locateOnScreen("../Combat/Deplacement.png", confidence=0.8)
+                pyautogui.moveTo(z, duration=random.uniform(0.1, 0.3))
+                pyautogui.doubleClick()
+                time.sleep(0.5)
+                souris("../Combat/Findetour.png")
+                time.sleep(1)
 
             if pyautogui.locateOnScreen("../Combat/Quit.png", confidence=0.8):
                 souris("../Combat/Quit.png")
                 time.sleep(1)
                 if pyautogui.locateOnScreen("../Combat/Quit.png", confidence=0.8):
                     level_up()
+                souris("../Ressource/Inventaire.png")
+                souris("../Ressource/sac.png")
+                pyautogui.click()
                 break
             elif keyboard.is_pressed("q"):
                 time.sleep(1)
@@ -75,19 +73,24 @@ def minage(a, b):
     pyautogui.mouseDown()
     time.sleep(1)
     for i in range(len(a)):
-        if pyautogui.locateOnScreen("../Ressource/Mine.png", confidence=0.8):
-            print(f"Minerai suivant : {i + 1}")
-            pyautogui.moveTo(a[i], b[i], duration=random.uniform(0.1, 0.2))
-            time.sleep(0.2)
-        else:
+        print(f"Minerai n° : {i + 1}")
+        if not pyautogui.locateOnScreen("../Ressource/Mine.png", confidence=0.8):
             print("Trouvé")
             pyautogui.mouseUp()
             pyautogui.doubleClick()
             time.sleep(5 + 11)
             level_up()
-            combat(2113,324,2108,414)
-            pyautogui.moveTo(a[i], b[i], duration=random.uniform(0.1, 0.3))
+            combat(2109, 421, 2099, 329, 2107, 890)
+            pyautogui.moveTo(a[i], b[i], duration=random.uniform(0.2, 0.3))
+            time.sleep(0.5)
             pyautogui.mouseDown()
+            time.sleep(1)
+        else:
+            print("Rien")
+            if i == len(a) - 1:
+                pass
+            else:
+                pyautogui.moveTo(a[i + 1], b[i + 1], duration=random.uniform(0.1, 0.2))
             time.sleep(0.5)
     pyautogui.mouseUp()
     print("Carte terminé")
