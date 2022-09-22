@@ -55,6 +55,11 @@ def combat(x1, y1, x2, y2, x3, y3):
                 time.sleep(1)
 
             if pyautogui.locateOnScreen("../Combat/Quit.png", confidence=0.8):
+                if pyautogui.locateOnScreen("../Combat/dead.png", confidence=0.8):
+                    pyautogui.moveTo(2753,769)
+                    pyautogui.click()
+                    keyboard.send("ctrl+F2")
+                    time.sleep(1)
                 souris("../Combat/Quit.png")
                 time.sleep(1)
                 if pyautogui.locateOnScreen("../Combat/Quit.png", confidence=0.8):
@@ -66,6 +71,7 @@ def combat(x1, y1, x2, y2, x3, y3):
             elif keyboard.is_pressed("q"):
                 time.sleep(1)
                 break
+
 
 
 def minage(a, b):
