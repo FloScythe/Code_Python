@@ -7,7 +7,7 @@ import keyboard
 while True:
     if keyboard.is_pressed('d'):
 
-        x, y = pyaudtogui.position()
+        x, y = pyautogui.position()
         r,g,b = pyautogui.pixel(x, y)
         print(pyautogui.position(),r,g,b)
         time.sleep(1)
