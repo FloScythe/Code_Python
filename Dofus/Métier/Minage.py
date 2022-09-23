@@ -1,11 +1,4 @@
 # Programme de minage
-"""
-Action à réaliser
-- Positionner le curseur sur le minerai
-- Faire un clic long sur le minerai
-- Detecter Si in n'y a pas de croix
-- Cliquer
-"""
 import pyautogui
 import random
 import time
@@ -157,6 +150,13 @@ y_9 = [323, 346]
 # Cuivre4
 x_10 = [1883, 1741, 1632, 1276, 1123, 1062, 666, 595, 253, 194]
 y_10 = [945, 588, 595, 389, 413, 437, 482, 446, 579, 604]
+#Kobalt1
+x_11 = [940,585,660,1372,1455,1613,1692,1758]
+y_11 = [1002,485,450,232,198,206,241,280]
+#Kobalt2
+x_12 = [596,669,1180,1260,1492,1622,1696]
+y_12 = [730,698,484,442,443,485,609]
+
 
 while not keyboard.is_pressed('q'):
     minage(x_1, y_1)
@@ -210,11 +210,29 @@ while not keyboard.is_pressed('q'):
     # ----------
     minage(x_10, y_10)
     # ----------
+    deplacement(1567, 557)
+    # ----------
+    minage(x_11, y_11)
+    # ----------
+    deplacement(571, 1331)
+    # ----------
+    minage(x_10, y_10)
+    # ----------
     deplacement(2014, 1269)
     # ----------
     minage(x_9, y_9)
     # ----------
     deplacement(1610, 1263)
+    # ----------
+    minage(x_8, y_8)
+    # ----------
+    deplacement(1831, 560)
+    deplacement(1831, 560)
+    # ----------
+    minage(x_12, y_12)
+    # ----------
+    deplacement(519, 1164)
+    deplacement(719, 1138)
     # ----------
     minage(x_8, y_8)
     # ----------
