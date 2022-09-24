@@ -1,17 +1,6 @@
 # Programme de Paysan
 
-"""
-Deplacer le curseur par reconnaissance d'image
-Cliquer sur le blé
-Attendre moins que le temps de recolte
-Relancer la boucle
-1.Si la carte est vide
-    Verifier si l'inventaire est plein
-    Vendre si plein
-    Bouger de carte
-"""
 import time
-
 import keyboard
 import pyautogui
 import random
@@ -66,14 +55,15 @@ def combat(x3, y3):
                 if pyautogui.locateOnScreen("../Combat/Quit.png", confidence=0.8):
                     print("Fin du combat")
                     level_up()
+
                 souris("../Ressource/Inventaire.png")
                 z = pyautogui.locateOnScreen("Ressource_Flo/sac_houblon.png", confidence=0.8)
                 pyautogui.moveTo(z, duration=random.uniform(0.1, 0.3))
                 pyautogui.doubleClick()
                 souris("../Combat/Quit.png")
                 break
-        else:
-            print("Pas de combat detecté")
+    else:
+        print("Pas de combat detecté")
 
 
 def sell(x):
