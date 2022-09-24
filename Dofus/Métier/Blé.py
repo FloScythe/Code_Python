@@ -31,7 +31,7 @@ def level_up():
         up = pyautogui.locateOnScreen("../Combat/Quit.png", confidence=0.8)
         pyautogui.moveTo(up, duration=random.uniform(0.1, 0.3))
         pyautogui.click()
-        print("Level up")
+        print(f"Level up !")
 
 
 def combat(x3, y3):
@@ -64,107 +64,129 @@ def combat(x3, y3):
                 souris("../Combat/Quit.png")
                 time.sleep(1)
                 if pyautogui.locateOnScreen("../Combat/Quit.png", confidence=0.8):
-                    print("")
+                    print("Fin du combat")
                     level_up()
                 souris("../Ressource/Inventaire.png")
-                souris("../Ressource/sac.png")
-                pyautogui.click()
+                z = pyautogui.locateOnScreen("Ressource_Flo/sac_houblon.png", confidence=0.8)
+                pyautogui.moveTo(z, duration=random.uniform(0.1, 0.3))
+                pyautogui.doubleClick()
+                souris("../Combat/Quit.png")
                 break
-            elif keyboard.is_pressed("q"):
-                time.sleep(1)
-                break
+        else:
+            print("Pas de combat detecté")
 
 
 def sell(x):
-    souris("../Ressource/Inventaire.png")
-    if pyautogui.locateOnScreen("../Ressource/Alerte_full.png", confidence=0.8):
-        souris("../Ressource/Ressource_Inventaire.png")
-        souris(x)
-        souris("../Ressource/hdv.png")
-        souris("../Ressource/QTE100.png")
-        if pyautogui.locateOnScreen("../Ressource/Entrer.png", confidence=0.8):
-            souris("../Ressource/Entrer.png")
-            souris("../Ressource/Mettre_en_vente.png")
-            souris("../Ressource/Vente.png")
-            souris("../Combat/Quit.png")
-        else:
-            souris("../Combat/Quit.png")
+    souris("Ressource_Flo/Inventaire.png")
+    souris("Ressource_Flo/Ressource_Inventaire.png")
+    souris(x)
+    souris("../Ressource/hdv.png")
+    souris("../Ressource/QTE100.png")
+    if pyautogui.locateOnScreen("../Ressource/Entrer.png", confidence=0.8):
+        souris("../Ressource/Entrer.png")
+        souris("../Ressource/Mettre_en_vente.png")
+        souris("../Ressource/Vente.png")
+        souris("../Combat/Quit.png")
     else:
         souris("../Combat/Quit.png")
 
 
 i = 0
-BOUCLE = 15
-
+BOUCLE = 10
+LEVEL = 35
+temps = 12 - (10 * LEVEL / 100) + 1
+print("Demarrage du programme : ")
 while True:
     for nombre in range(BOUCLE):
-        ble = pyautogui.locateOnScreen("Ressource_Flo/Ble.PNG", confidence=0.6)
-        orge = pyautogui.locateOnScreen("Ressource_Flo/Orge.PNG", confidence=0.6)
-        avoine = pyautogui.locateOnScreen("Ressource_Flo/Avoine.PNG", confidence=0.6)
+        # ----Detection de combat en cours----
+        combat(2108, 416)
+        pyautogui.moveTo(1500, 720, duration=random.uniform(0.1,0.2))
+
+        # ----Verification inventaire----
+        full = pyautogui.locateOnScreen("Ressource_Flo/Full.PNG")
+        if full:
+            # sell("Ressource_Flo/Ble_inventaire.png")
+            # sell("Ressource_Flo/Orge_inventaire.png")
+            sell("Ressource_Flo/Avoine_inventaire.png")
+            sell("Ressource_Flo/Houblon_inventaire.png")
+        elif not full:
+            print("Rien a vendre")
+
+        # ----Identification----
+        ble = pyautogui.locateOnScreen("Ressource_Flo/Ble.PNG", confidence=0.7)
+        orge = pyautogui.locateOnScreen("Ressource_Flo/Orge.PNG", confidence=0.7)
+        avoine = pyautogui.locateOnScreen("Ressource_Flo/Avoine.PNG", confidence=0.7)
+        houblon = pyautogui.locateOnScreen("Ressource_Flo/Houblon.PNG", confidence=0.6)
         coupe1 = pyautogui.locateOnScreen("Ressource_Flo/Ble_coupe.PNG", confidence=0.6)
         # coupe2 = pyautogui.locateOnScreen("Ressource_Flo/Orge_coupe.PNG", confidence=0.6)
         coupe3 = pyautogui.locateOnScreen("Ressource_Flo/Avoine_coupe.PNG", confidence=0.6)
+        coupe4 = pyautogui.locateOnScreen("Ressource_Flo/Houblon_coupe.PNG", confidence=0.6)
 
-        pyautogui.moveTo(ble or orge or avoine)
+
+        # ----Détection de la récolte----
+        print("Selection du céréales")
+        pyautogui.moveTo(ble or orge or avoine or houblon)
         pyautogui.mouseDown()
-        time.sleep(1)
+        time.sleep(random.uniform(0.1,0.2))
         vide = pyautogui.locateOnScreen("Ressource_Flo/vide.PNG", confidence=0.8)
+
+        # ----Lancement de la récolte----
         if ble and not vide:
             i += 1
             print(f"Recolte Blé : {i}")
             pyautogui.click()
-            time.sleep(random.uniform(10, 11))
+            time.sleep(temps)
             pyautogui.mouseUp()
             level_up()
-            combat(2108,416)
+            combat(2108, 416)
         elif orge and not vide:
             i += 1
             print(f"Recolte Orge : {i}")
             pyautogui.click()
-            time.sleep(random.uniform(10, 11))
+            time.sleep(temps)
             pyautogui.mouseUp()
             level_up()
-            combat(2108,416)
+            combat(2108, 416)
         elif avoine and not vide:
             i += 1
             print(f"Recolte Avoine : {i}")
             pyautogui.click()
-            time.sleep(random.uniform(10, 11))
+            time.sleep(temps)
             pyautogui.mouseUp()
             level_up()
-            combat(2108,416)
-        elif coupe1 or coupe3 or vide:
-            print("Rien trouvé")
+            combat(2108, 416)
+        elif houblon and not vide:
+            i += 1
             pyautogui.mouseUp()
-            avoine = pyautogui.locateOnScreen("Ressource_Flo/Avoine.PNG", confidence=0.6)
-            pyautogui.moveTo(avoine)
+            pyautogui.click()
+            time.sleep(temps)
+            print(f"Recolte Houblon : {i}")
+            level_up()
+            combat(2108, 416)
+        elif coupe1 or coupe3 or coupe4 or vide:
+            pyautogui.mouseUp()
+            houblon = pyautogui.locateOnScreen("Ressource_Flo/Houblon.PNG", confidence=0.6)
+            pyautogui.moveTo(houblon)
             map1 = pyautogui.locateOnScreen("Ressource_Flo/Map1.PNG", confidence=0.8)
-            map2 = pyautogui.locateOnScreen("Ressource_Flo/Map2.PNG", confidence=0.8)
-            map3 = pyautogui.locateOnScreen("Ressource_Flo/Map3.PNG", confidence=0.8)
-            if not avoine:
+            # map2 = pyautogui.locateOnScreen("Ressource_Flo/Map2.PNG", confidence=0.8)
+            # map3 = pyautogui.locateOnScreen("Ressource_Flo/Map3.PNG", confidence=0.8)
+            if not houblon:
+                print("Rien trouvé")
+                pyautogui.moveTo(1500,720)
                 pyautogui.mouseUp()
                 if map1:
                     print("Map 1")
-                    pyautogui.moveTo(90, 720)
-                    pyautogui.click()
-                    time.sleep(4)
+                    for carte in range(5):
+                        pyautogui.moveTo(2045, 720)
+                        pyautogui.click()
+                        time.sleep(7)
                     print("Changement de carte")
-                elif map2:
+                elif not map1:
                     print("Map 2")
-                    pyautogui.moveTo(90, 720)
-                    pyautogui.click()
-                    time.sleep(4)
-                    print("Changement de carte")
-                elif map3:
-                    print("Map 3")
-                    pyautogui.moveTo(2045, 720)
-                    pyautogui.click()
-                    time.sleep(4)
-                    pyautogui.moveTo(2045, 720)
-                    pyautogui.click()
-                    time.sleep(4)
+                    for carte in range(5):
+                        pyautogui.moveTo(90, 720)
+                        pyautogui.click()
+                        time.sleep(7)
                     print("Changement de carte")
             pass
-    sell("Ressource_Flo/Ble_inventaire.png")
-    sell("Ressource_Flo/Orge_inventaire.png")
-    sell("Ressource_Flo/Avoine_inventaire.png")
+

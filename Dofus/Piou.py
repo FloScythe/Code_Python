@@ -32,8 +32,9 @@ def Piou():
                 pyautogui.click()
                 time.sleep(5)
                 break
-            elif pyautogui.locateOnScreen("../Combat/Pret.png", grayscale=True, confidence=0.8) or pyautogui.locateOnScreen(
-            "../Combat/Findetour.png", grayscale=True, confidence=0.8):
+            elif pyautogui.locateOnScreen("../Combat/Pret.png", grayscale=True,
+                                          confidence=0.8) or pyautogui.locateOnScreen(
+                    "../Combat/Findetour.png", grayscale=True, confidence=0.8):
                 break
     combat(2108, 415)
 
