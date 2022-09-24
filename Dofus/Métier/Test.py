@@ -34,10 +34,16 @@ def sell(x):
 #     souris("../Combat/Quit.png")
 
 souris("../Ressource/Inventaire.png")
-# ----Verification inventaire----
-while pyautogui.locateOnScreen("Ressource_Flo/Alerte_full.PNG", confidence=0.7):
-    souris("../Ressource/Inventaire.png")
-    # sell("Ressource_Flo/Ble_inventaire.png")
-    # sell("Ressource_Flo/Orge_inventaire.png")
-    # sell("Ressource_Flo/Avoine_inventaire.png")
-    sell("Ressource_Flo/Houblon_inventaire.png")
+souris("Ressource_Flo/Alerte_full.PNG")
+full = pyautogui.locateOnScreen("Ressource_Flo/Alerte_full.PNG", confidence=0.8)
+if full:
+    print("Trouvé")
+    while full:
+        # sell("Ressource_Flo/Ble_inventaire.png")
+        # sell("Ressource_Flo/Orge_inventaire.png")
+        # sell("Ressource_Flo/Avoine_inventaire.png")
+        sell("Ressource_Flo/Houblon_inventaire.png")
+        souris("../Ressource/Inventaire.png")
+        full = pyautogui.locateOnScreen("Ressource_Flo/Alerte_full.PNG", confidence=0.8)
+        if not full:
+            souris("../Combat/Quit.png")
