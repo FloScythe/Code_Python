@@ -33,16 +33,11 @@ def sell(x):
 #     print("Rien a vendre")
 #     souris("../Combat/Quit.png")
 
-map1 = pyautogui.locateOnScreen("Ressource_Flo/Map1.PNG", confidence=0.8)
-map2 = pyautogui.locateOnScreen("Ressource_Flo/Map2.PNG", confidence=0.8)
-houblon = pyautogui.locateOnScreen("Ressource_Flo/Houblon.PNG", confidence=0.6)
-if houblon:
-    pyautogui.moveTo(1500, 720)
-    pyautogui.mouseUp()
-    if map1:
-        print("Map 1")
-        for i in range(5):
-            pyautogui.moveTo(2045, 720)
-            pyautogui.click()
-            time.sleep(6)
-        print("Changement de carte")
+souris("../Ressource/Inventaire.png")
+# ----Verification inventaire----
+while pyautogui.locateOnScreen("Ressource_Flo/Alerte_full.PNG", confidence=0.7):
+    souris("../Ressource/Inventaire.png")
+    # sell("Ressource_Flo/Ble_inventaire.png")
+    # sell("Ressource_Flo/Orge_inventaire.png")
+    # sell("Ressource_Flo/Avoine_inventaire.png")
+    sell("Ressource_Flo/Houblon_inventaire.png")

@@ -103,20 +103,20 @@ while True:
         pyautogui.moveTo(1500, 720, duration=random.uniform(0.1,0.2))
 
         # ----Verification inventaire----
-        full = pyautogui.locateOnScreen("Ressource_Flo/Full.PNG")
-        if full:
-            # sell("Ressource_Flo/Ble_inventaire.png")
-            # sell("Ressource_Flo/Orge_inventaire.png")
-            sell("Ressource_Flo/Avoine_inventaire.png")
-            sell("Ressource_Flo/Houblon_inventaire.png")
-        elif not full:
+        if nombre == BOUCLE:
+            while pyautogui.locateOnScreen("Ressource_Flo/Alerte_full.PNG"):
+                # sell("Ressource_Flo/Ble_inventaire.png")
+                # sell("Ressource_Flo/Orge_inventaire.png")
+                # sell("Ressource_Flo/Avoine_inventaire.png")
+                sell("Ressource_Flo/Houblon_inventaire.png")
+        elif not nombre == BOUCLE:
             print("Rien a vendre")
 
         # ----Identification----
         ble = pyautogui.locateOnScreen("Ressource_Flo/Ble.PNG", confidence=0.7)
         orge = pyautogui.locateOnScreen("Ressource_Flo/Orge.PNG", confidence=0.7)
         avoine = pyautogui.locateOnScreen("Ressource_Flo/Avoine.PNG", confidence=0.7)
-        houblon = pyautogui.locateOnScreen("Ressource_Flo/Houblon.PNG", confidence=0.6)
+        houblon = pyautogui.locateOnScreen("Ressource_Flo/Houblon.PNG", confidence=0.7)
         coupe1 = pyautogui.locateOnScreen("Ressource_Flo/Ble_coupe.PNG", confidence=0.6)
         # coupe2 = pyautogui.locateOnScreen("Ressource_Flo/Orge_coupe.PNG", confidence=0.6)
         coupe3 = pyautogui.locateOnScreen("Ressource_Flo/Avoine_coupe.PNG", confidence=0.6)
@@ -165,8 +165,12 @@ while True:
             combat(2108, 416)
         elif coupe1 or coupe3 or coupe4 or vide:
             pyautogui.mouseUp()
-            houblon = pyautogui.locateOnScreen("Ressource_Flo/Houblon.PNG", confidence=0.6)
+            houblon = pyautogui.locateOnScreen("Ressource_Flo/Houblon.PNG", confidence=0.7)
             pyautogui.moveTo(houblon)
+            if houblon:
+                print("Erreur, Selection nouveau céréale")
+
+            # ----Changement de carte----
             map1 = pyautogui.locateOnScreen("Ressource_Flo/Map1.PNG", confidence=0.8)
             # map2 = pyautogui.locateOnScreen("Ressource_Flo/Map2.PNG", confidence=0.8)
             # map3 = pyautogui.locateOnScreen("Ressource_Flo/Map3.PNG", confidence=0.8)
@@ -188,5 +192,4 @@ while True:
                         pyautogui.click()
                         time.sleep(7)
                     print("Changement de carte")
-            pass
 
