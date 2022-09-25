@@ -2,25 +2,7 @@ import time
 import keyboard
 import pyautogui
 import random
-
-# from PIL import Image
-
-"""
-# Debut du programme :
-i = 0 -- Verifie le nommbre d'iteration
-BOUCLE = 10 --Nombre de fois que la boucle tourne
-LEVEL = 40 -- Niveau métier actuel
-temps = 12 - (10 * LEVEL / 100) + 1 -- Temps de recolte
-"""
-print("Demarrage du programme : ")
-"""
-Ordre d'execution :
-1.  Verification    -- fenetre / combat / inventaire
-2.  Identification     -- Identifier le type de cereale
-3.  Selection   -- Selecionner le cereale
-4.  Validation  -- Lancer la recolte
-5.  Transition  --  Changement de map
-"""
+import unidecode
 
 
 # -------------------------------
@@ -34,6 +16,7 @@ def clics(nom):
         print("Clic non réalisé")
 
 
+# -------------------------------
 def doubleclics(nom):
     if pyautogui.locateOnScreen(nom, confidence=0.8):
         position = pyautogui.locateOnScreen(nom, confidence=0.8)
@@ -44,11 +27,38 @@ def doubleclics(nom):
         print("Double clic non réalisé")
 
 
+# -------------------------------
 def fenetre():
     while pyautogui.locateOnScreen("Ressource_Flo/Quit.png", confidence=0.8):
         clics("Ressource_Flo/Quit.png")
-
         break
+
+
+# -------------------------------
+def select(nom):
+    # Selection du cereale
+    selection = pyautogui.locateOnScreen(nom, confidence=0.8)
+    pyautogui.moveTo(selection, duration=random.uniform(0.1, 0.3))
+    # Verifie si c'est récoltable
+    pyautogui.mouseDown()
+    time.sleep(0.5)
+    vide = pyautogui.locateOnScreen("Ressource_Flo/vide.PNG", confidence=0.8)
+    if not vide:
+        pyautogui.mouseUp(duration=0.3)
+        pyautogui.click()
+        time.sleep(1)
+        print(f"Récolte {cereale} : {i}")
+        time.sleep(1)
+        combat(2108, 416)
+    else:
+        print("Pas disponible, au suivant")
+
+
+# -------------------------------
+def deplacement(x,y):
+    pyautogui.moveTo(x,y,duration=random.uniform(0.1,0.3))
+    pyautogui.click()
+    time.sleep(7)
 
 
 # -------------------------------
@@ -135,11 +145,40 @@ def vente(x):
 
 # -------------------------------
 """
-# Verification avant programme
+--- Help ---
+# Debut du programme :
+
+"""
+# -------------------------------
+"""
+Ordre d'execution :
+Boucle infini 
+1.  Verification    -- fenetre / combat / inventaire --OK
+2.  Identification  -- Identifier le type de cereale --OK
+3.  Selection       -- Selecionner le cereale
+4   Validation      -- Verifier si le céréale est disponible
+4.  Confirmation    -- Lancer la recolte
+5.  Transition      -- Changement de map
+"""
+
+"""Verification avant programme
 fenetre -- Si il n'y a aucune fenetre d'ouvert
 combat --Si aucun combat n'est en cours
 Inventaire -- Si il y'a de la place dans l'inventaire si non vendre
 """
+cereale = input("Quel type de céréale ? ")
+cereale = unidecode.unidecode(cereale)
+cereale = cereale.lower()
+
+print(f"Cereale choisi : {cereale}")
+
+print("Demarrage du programme : ")
+# Boucle Start
+
+i = 0  # Verifie le nommbre d'iteration
+# BOUCLE = 10  # Nombre de fois que la boucle tourne
+LEVEL = 40  # Niveau métier actuel
+temps = 12 - (10 * LEVEL / 100) + 1  # Temps de recolte
 
 fenetre()
 combat(2108, 416)
@@ -151,3 +190,37 @@ if inventaire():
     vente("Ressource_Flo/Lin_inventaire.png")
 
 # -------------------------------
+"""Identification du céréale
+cereale = input("Quel type de céréale ? ")
+Si blé :
+    Selection
+    Clic
+"""
+
+if cereale == "ble":
+    select("Ressource_Flo/Ble.PNG")
+    # # Selection du cereale
+    # selection = pyautogui.locateOnScreen("Ressource_Flo/Ble.PNG", confidence=0.8)
+    # pyautogui.moveTo(selection, duration=random.uniform(0.1, 0.3))
+    # # Verifie si c'est récoltable
+    # pyautogui.mouseDown()
+    # time.sleep(0.5)
+    # vide = pyautogui.locateOnScreen("Ressource_Flo/vide.PNG", confidence=0.8)
+    # if not vide:
+    #     pyautogui.mouseUp(duration=0.3)
+    #     pyautogui.click()
+    #     time.sleep(1)
+    #     print(f"Récolte {cereale} : {i}")
+    #     time.sleep(1)
+    #     combat(2108, 416)
+    # else:
+    #     print("Pas disponible, au suivant")
+
+elif cereale == "orge":
+    select("Ressource_Flo/Orge.PNG")
+elif cereale == "avoine":
+    select("Ressource_Flo/Avoine.PNG")
+elif cereale == "houblon":
+    select("Ressource_Flo/Houblon.PNG")
+elif cereale == "lin":
+    select("Ressource_Flo/lin.PNG")
