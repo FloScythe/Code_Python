@@ -36,14 +36,18 @@ def fenetre():
 
 # -------------------------------
 def select(nom):
-    # Selection du cereale
+    # Verification de la présence du céréale
     selection = pyautogui.locateOnScreen(nom, confidence=0.8)
     pyautogui.moveTo(selection, duration=random.uniform(0.1, 0.3))
+    print("")
     # Verifie si c'est récoltable
     pyautogui.mouseDown()
     time.sleep(0.5)
     vide = pyautogui.locateOnScreen("Ressource_Flo/vide.PNG", confidence=0.8)
-    if not vide:
+    if vide:
+        print("Pas disponible, au suivant")
+        return
+    elif not vide:
         pyautogui.mouseUp(duration=0.3)
         pyautogui.click()
         time.sleep(1)
@@ -51,7 +55,8 @@ def select(nom):
         time.sleep(1)
         combat(2108, 416)
     else:
-        print("Pas disponible, au suivant")
+
+        pass
 
 
 # -------------------------------
