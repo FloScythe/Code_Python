@@ -2,7 +2,6 @@ import time
 import keyboard
 import pyautogui
 import random
-import unidecode
 
 
 def clics(x, confidence):
@@ -56,7 +55,7 @@ def combat(x, y):
                 time.sleep(3)
 
             resume = pyautogui.locateOnScreen("../Combat/Quit.png", confidence=0.8)
-            dead = pyautogui.locateOnScreen("../Combat/dead.png", confidence=0.8)
+            dead = pyautogui.locateOnScreen("Ressource_Flo/dead.png", confidence=0.8)
             if resume and not dead:
                 print("C'est gagné")
                 print("Fin du mode combat")
@@ -64,7 +63,7 @@ def combat(x, y):
                 sac()
                 return
 
-            elif resume and dead:
+            elif dead:
                 print("T'es mort")
                 pyautogui.moveTo(2753, 769)
                 pyautogui.click()
@@ -118,7 +117,7 @@ def vente(x):
 
 
 def recolte(x):
-    for i in range(10):
+    for i in range(30):
         action = False
         combat(2108, 416)
         fenetre()
@@ -129,40 +128,70 @@ def recolte(x):
             action = True
 
         non_disponible = pyautogui.locateOnScreen("Ressource_Flo/non_disponible.PNG", confidence=0.95)
-        time.sleep(1)
+        time.sleep(0.2)
 
         # ---- Cereale disponible ----
         if localisation and not non_disponible:
             print("Le céréale peut etre récupéré")
             pyautogui.click()
             action = True
-            time.sleep(1)
+            time.sleep(0.5)
 
-        # ---- Cereale non disponible ----
-        elif localisation and non_disponible:
-            print("Le céréale est déjà pris")
-            action = True
-
+        # # ---- Cereale non disponible ----
+        # elif localisation and non_disponible:
+        #     print("Le céréale est déjà pris")
+        #     action = True
+        #
         if not action:
-            time.sleep(temps)
-            print("Il faut changer de carte")
-            # ----- Controle des cartes de récolte -----
-            map1 = pyautogui.locateOnScreen("Ressource_Flo/Map1.png")
-            map2 = pyautogui.locateOnScreen("Ressource_Flo/Map2.png")
-            if map1:
-                print("Carte actuelle : 1")
-                print("Changement de map")
-                pyautogui.mouseUp()
-                pyautogui.moveTo(1700, 1375, duration=random.uniform(0.2, 0.3))
-                pyautogui.click()
-                time.sleep(6)
-            elif map2:
-                print("Carte actuelle : 2")
-                print("Changement de map")
-                pyautogui.mouseUp()
-                pyautogui.moveTo(1050, 55, duration=random.uniform(0.2, 0.3))
-                pyautogui.click()
-                time.sleep(6)
+            return
+        #     time.sleep(temps)
+        #     print("Il faut changer de carte")
+        #     # ----- Controle des cartes de récolte -----
+        #     map1 = pyautogui.locateOnScreen("Ressource_Flo/Map1.png")
+        #     map2 = pyautogui.locateOnScreen("Ressource_Flo/Map2.png")
+        #     map3 = pyautogui.locateOnScreen("Ressource_Flo/Map3.png")
+        #     if map1:
+        #         print("Carte actuelle : 1")
+        #         print("Changement de map")
+        #         pyautogui.mouseUp()
+        #         deplacement_bas()
+        #     elif map2:
+        #         print("Carte actuelle : 2")
+        #         print("Changement de map")
+        #         pyautogui.mouseUp()
+        #         deplacement_bas()
+        #         deplacement_gauche()
+        #     elif map3:
+        #         print("Carte actuelle : 3")
+        #         print("Changement de map")
+        #         pyautogui.mouseUp()
+        #         deplacement_haut()
+        #         deplacement_haut()
+        #         deplacement_droite()
+
+
+def deplacement_haut():
+    pyautogui.moveTo(1050, 55, duration=random.uniform(0.2, 0.3))
+    pyautogui.click()
+    time.sleep(6)
+
+
+def deplacement_bas():
+    pyautogui.moveTo(1700, 1375, duration=random.uniform(0.2, 0.3))
+    pyautogui.click()
+    time.sleep(6)
+
+
+def deplacement_droite():
+    pyautogui.moveTo(2025, 520, duration=random.uniform(0.2, 0.3))
+    pyautogui.click()
+    time.sleep(6)
+
+
+def deplacement_gauche():
+    pyautogui.moveTo(105, 520, duration=random.uniform(0.2, 0.3))
+    pyautogui.click()
+    time.sleep(6)
 
 
 ble = "Ressource_Flo/Ble.PNG"
@@ -174,12 +203,7 @@ seigle = "Ressource_Flo/Seigle.PNG"
 malt = "Ressource_Flo/Malt.PNG"
 
 print("Demarrage du programme : ")
-cereale = input("Quel type de céréale ? ")
-cereale = unidecode.unidecode(cereale)
-cereale = cereale.lower()
-
-print(f"Cereale choisi : {cereale}")
-level = 54  # Niveau métier actuel
+level = 80  # Niveau métier actuel
 temps = 12 - (10 * level / 100)  # Temps de recolte
 
 # Verification de l'écran
@@ -188,30 +212,6 @@ verification()
 while True:
     # Vérification de l'inventaire
     if inventaire():
-        if cereale == "ble":
-            vente("Ressource_Flo/Ble_inventaire.PNG")
-        elif cereale == "orge":
-            vente("Ressource_Flo/Orge_inventaire.PNG")
-        elif cereale == "avoine":
-            vente("Ressource_Flo/Avoine_inventaire.PNG")
-        elif cereale == "houblon":
-            vente("Ressource_Flo/Houblon_inventaire.PNG")
-        elif cereale == "lin":
-            vente("Ressource_Flo/Lin_inventaire.PNG")
-        elif cereale == "seigle":
-            vente("Ressource_Flo/Seigle_inventaire.PNG")
-        else:
-            print("Hors catégorie")
+        vente("Ressource_Flo/Malt_inventaire.PNG")
 
-    if cereale == "ble":
-        recolte(ble)
-    elif cereale == "orge":
-        recolte(orge)
-    elif cereale == "avoine":
-        recolte(avoine)
-    elif cereale == "houblon":
-        recolte(houblon)
-    elif cereale == "lin":
-        recolte(lin)
-    elif cereale == "seigle":
-        recolte(seigle)
+    recolte("Ressource_Flo/Malt.png")
