@@ -5,6 +5,7 @@ import time
 
 from PIL import ImageGrab
 
+# Pour MacOS
 try:
     from Quartz.CoreGraphics import CGMainDisplayID, CGDisplayBounds
 
@@ -24,7 +25,7 @@ except ImportError:
 
 
 class ModelDetector:
-    def __init__(self, templates, method=cv2.TM_CCOEFF_NORMED, threshold=0.8):
+    def __init__(self, templates, method=cv2.TM_CCOEFF_NORMED, threshold=0.7):
         self.templates = templates
         self.method = method
         self.threshold = threshold
@@ -46,7 +47,7 @@ class ModelDetector:
             location = numpy.where(result >= self.threshold)
             for point in zip(*location[::-1]):
                 # Ajuster les coordonnées relatives en utilisant les coordonnées de capture d'écran
-                X_CONSTANTE, Y_CONSTANTE = -20, 70
+                X_CONSTANTE, Y_CONSTANTE = -15, 70
                 x, y = point[0] - int(template.shape[1] / 2) - X_CONSTANTE, point[1] - int(
                     template.shape[0] / 2) + Y_CONSTANTE
 
@@ -77,33 +78,41 @@ class ModelDetector:
 templates = [
     cv2.imread('Image/Interface/Menu.PNG'),
     # cv2.imread('Image/Metier/Paysan/Template.png'),
-    # cv2.imread('Image/Metier/Paysan/Template1.png'),
-    # cv2.imread('Image/Metier/Paysan/Ble_0.png'),
     # cv2.imread('Image/Metier/Paysan/Orge_0.png'),
-    cv2.imread('Image/Metier/Paysan/Lin_0.png'),
-    cv2.imread('Image/Metier/Paysan/Lin_1.png'),
-    cv2.imread('Image/Metier/Paysan/Lin_2.png'),
-    cv2.imread('Image/Metier/Paysan/Avoine_0.png'),
-    cv2.imread('Image/Metier/Paysan/Avoine_1.png'),
-    cv2.imread('Image/Metier/Paysan/Avoine_2.png'),
-    cv2.imread('Image/Metier/Paysan/Houblon_0.png'),
-    cv2.imread('Image/Metier/Paysan/Houblon_1.png'),
-    cv2.imread('Image/Metier/Paysan/Houblon_2.png'),
-    cv2.imread('Image/Metier/Paysan/Houblon_3.png'),
+    # cv2.imread('Image/Metier/Paysan/Orge_1.png'),
+    # cv2.imread('Image/Metier/Paysan/Orge_2.png'),
+    # cv2.imread('Image/Metier/Paysan/Ble_0.png'),
+    # cv2.imread('Image/Metier/Paysan/Ble_1.png'),
+    # cv2.imread('Image/Metier/Paysan/Ble_2.png'),
+    # cv2.imread('Image/Metier/Paysan/Lin_0.png'),
+    # cv2.imread('Image/Metier/Paysan/Lin_1.png'),
+    # cv2.imread('Image/Metier/Paysan/Lin_2.png'),
+    # cv2.imread('Image/Metier/Paysan/Lin_3.png'),
+    # cv2.imread('Image/Metier/Paysan/Avoine_0.png'),
+    # cv2.imread('Image/Metier/Paysan/Avoine_1.png'),
+    # cv2.imread('Image/Metier/Paysan/Avoine_2.png'),
+    # cv2.imread('Image/Metier/Paysan/Houblon_0.png'),
+    # cv2.imread('Image/Metier/Paysan/Houblon_1.png'),
+    # cv2.imread('Image/Metier/Paysan/Houblon_2.png'),
+    # cv2.imread('Image/Metier/Paysan/Houblon_3.png'),
+    cv2.imread('Image/Metier/Paysan/Seigle_0.png'),
+    cv2.imread('Image/Metier/Paysan/Seigle_1.png'),
+    cv2.imread('Image/Metier/Paysan/Seigle_2.png'),
+    cv2.imread('Image/Metier/Paysan/Seigle_3.png'),
     # Ajoutez autant d'images que nécessaire
 ]
 
-detector = ModelDetector(templates, method=cv2.TM_CCOEFF_NORMED, threshold=0.5)
+detector = ModelDetector(templates, method=cv2.TM_CCOEFF_NORMED, threshold=0.6)
 
 while True:
-    menu = pyautogui.locateOnScreen('Image/Interface/Menu.PNG', confidence=0.5)
+    menu = pyautogui.locateOnScreen('Image/Interface/Menu.PNG', confidence=0.6)
     if menu:
         pyautogui.moveTo(menu, duration=0.2)
         time.sleep(0.1)
         pyautogui.click()
         print("Level Up")
-    if detector.detect(10, 70):
-        time.sleep(3)
+    if detector.detect(10, 40):
+        time.sleep(2)
     if cv2.waitKey(1) == ord('q'):
         break
     continue
