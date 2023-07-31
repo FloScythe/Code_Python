@@ -1,0 +1,34 @@
+/* Style pour les boutons */
+QPushButton {
+    background-color: #1EB4FC;
+    color: white;
+    font-size: 16px;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 5px;
+}
+
+QPushButton:hover {
+    background-color: #14a3e8;
+}
+
+QPushButton:pressed {
+    background-color: #0d92d4;
+}
+
+/* Style pour les listes */
+QListWidget {
+    border: 1px solid #cccccc;
+    border-radius: 10px;
+    font-size: 15px;
+    padding: 5px;
+    margin: 5px;
+}
+
+QListWidget::item {
+    padding: 10px;
+}
+
+QListWidget::item:selected {
+    background-color: #14a3e8;
+}
