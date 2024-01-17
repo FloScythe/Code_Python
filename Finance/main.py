@@ -17,16 +17,18 @@ def calcul_quantite(date, ticker):
     total_quantity = filtered_data['Quantite'].sum()
     
     if total_quantity != 0:
+        
         # Afficher la somme de la colonne "Quantite"
-        print(f"\nLe nombre d'action de {ticker} était de : {total_quantity}")
         valeur_action = recuperation_prix(date, ticker)
-        print(f"Une valeur à la cloture de : {valeur_action} €")
         valeur_total = calcul_valeur(total_quantity, valeur_action)
+        """
+        print(f"\nLe nombre d'action de {ticker} était de : {total_quantity}")
+        print(f"Une valeur à la cloture de : {valeur_action} €")
         print(f"Une valeur total dans le portefeuille de : {valeur_total} €")
         print('\n######################################################################\n')
-        
+        """
         # Retourner la valeur totale pour permettre à la fonction appelante de l'utiliser
-        return valeur_total
+        return round(valeur_total,3)
     else:
         # Si la quantité est zéro, retourner 0 (ou une autre valeur par défaut)
         return 0
@@ -65,7 +67,7 @@ def recuperation_prix(date, ticker):
         last_value = round(data['Close'][0],3)
         return last_value
     else:
-        print(f"\nAucune donnée disponible pour {ticker} à la date {date_str_end}.")
+        # print(f"\nAucune donnée disponible pour {ticker} à la date {date_str_end}.")
         return 0
 
 
@@ -89,7 +91,7 @@ difference = date_fin - date_debut
 # Extraire le nombre de jours à partir de la différence
 nombre_de_jours = difference.days
 # Afficher le résultat
-print(f"Il y a {nombre_de_jours} jours entre {date_debut_str} et {date_fin_str}.")
+# print(f"Il y a {nombre_de_jours} jours entre {date_debut_str} et {date_fin_str}.")
 
 # Liste des jours fériés
 holidays = ['2022-01-01', '2022-12-25']
@@ -98,18 +100,21 @@ holidays = ['2022-01-01', '2022-12-25']
 action = ['PE500.PA','PANX.PA','LQQ.PA','EWLD.PA']
 
 # Date de recherche
+
 date = '2023-06-25'
 
 #-------------------------------Affichage et recherche du prix de l'action à un jour J--------------------------------------------
+"""
+
 # Nouvelle liste pour stocker les sommes quotidiennes
 sommes_quotidiennes = []
-
-# Afficher la valeur de clôture des actions pour chaque jour entre date_debut_str et date_fin_str
-print(f"\nLe portefeuille entre {date_debut_str} et {date_fin_str} était composé de :")
+# Liste pour stocker les dates correspondantes
+dates_correspondantes = []
 
 # Boucle à travers chaque jour
 for i in range(nombre_de_jours + 1):  # +1 pour inclure également la date de début
     date_courante = (date_debut + timedelta(days=i)).strftime('%Y-%m-%d')
+    dates_correspondantes.append(date_courante)
     
     somme_valeur_total_jour = 0  # Initialiser la somme pour la journée
     
@@ -119,11 +124,71 @@ for i in range(nombre_de_jours + 1):  # +1 pour inclure également la date de d�
 
     # Ajouter la somme de la journée à la liste
     sommes_quotidiennes.append(somme_valeur_total_jour)
+    
+# Afficher les sommes quotidiennes et trouver la date correspondante à la valeur maximale
+valeur_maximale = max(sommes_quotidiennes)
+indice_max = sommes_quotidiennes.index(valeur_maximale)
+date_maximale = dates_correspondantes[indice_max]
+
+# Afficher la valeur maximale et la date correspondante
+print(f"\nLa valeur maximale dans la liste 'sommes_quotidiennes' est : {valeur_maximale} €")
+print(f"La date correspondante est : {date_maximale}")
+
 
 # Afficher les sommes quotidiennes
 for i, somme_jour in enumerate(sommes_quotidiennes, start=1):
-    print(f"Somme des 'valeur_total' pour le jour {i}: {somme_jour} €")
+    print(f"Somme des 'valeur_total' pour le jour {date_courante}: {somme_jour} €")
 
+
+"""
+#--------------------------------------------------------------------------------------------------------------------------------
+try:
+    df_valeur_portfolio = pd.read_csv('Valeur_portfolio.csv')
+except FileNotFoundError:
+    # Si le fichier n'existe pas encore, créer un DataFrame vide
+    df_valeur_portfolio = pd.DataFrame(columns=['Date', 'Somme_valeur_total'])
+
+# Initialiser les listes des dates et sommes
+dates_portfolio = df_valeur_portfolio['Date'].tolist()
+sommes_portfolio = df_valeur_portfolio['Somme_valeur_total'].tolist()
+
+# Boucle à travers chaque jour
+for i in range(nombre_de_jours + 1):  # +1 pour inclure également la date de début
+    date_courante = (date_debut + timedelta(days=i)).strftime('%Y-%m-%d')
+
+    # Vérifier si la date_courante est déjà présente dans "Valeur_portfolio"
+    if date_courante in dates_portfolio:
+        print(f"\nLa date {date_courante} est déjà présente dans 'Valeur_portfolio'. Passer à la date suivante.")
+        continue
+    
+    # Si la date_courante n'est pas présente dans "Valeur_portfolio", effectuer la recherche de valeur
+    somme_valeur_total_jour = 0  # Initialiser la somme pour la journée
+    
+    for action_ticker in action:
+        valeur_total = calcul_quantite(date_courante, action_ticker)
+        somme_valeur_total_jour += valeur_total
+    
+    # Vérifier si la somme_valeur_total_jour est différente de 0
+    if somme_valeur_total_jour == 0:
+        print(f"La somme_valeur_total_jour pour la date {date_courante} est 0. Effectuer une nouvelle recherche de valeur.")
+        
+        # Répéter la recherche de valeur jusqu'à ce que la somme_valeur_total_jour soit différente de 0
+        for action_ticker in action:
+            valeur_total = calcul_quantite(date_courante, action_ticker)
+            somme_valeur_total_jour += valeur_total
+        print(f"Nouvelle somme_valeur_total_jour pour la date {date_courante} : {somme_valeur_total_jour}")
+    
+    # Ajouter la somme de la journée à la liste
+    sommes_portfolio.append(somme_valeur_total_jour)
+    dates_portfolio.append(date_courante)
+
+# Mettre à jour le DataFrame avec les nouvelles données
+df_valeur_portfolio = pd.DataFrame({
+    'Date': dates_portfolio,
+    'Somme_valeur_total': sommes_portfolio
+})
+
+# Écrire dans le fichier "Valeur_portfolio"
+df_valeur_portfolio.to_csv('Valeur_portfolio.csv', index=False)
 
 #--------------------------------------------------------------------------------------------------------------------------------
-
