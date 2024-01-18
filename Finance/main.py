@@ -3,7 +3,7 @@ import yfinance as yf
 import numpy as np
 from datetime import datetime, timedelta
 
-def calcul_quantite(date, ticker):
+def calcul_valeur_portefeuille(date, ticker):
     # Lire le fichier CSV
     data = pd.read_csv('Data/Data.csv', delimiter=';')
 
@@ -79,7 +79,7 @@ def calcul_valeur(quantite, prix):
 # Définir les dates
 date_debut_str = "2022-01-10"
 date_fin = datetime.now().date()
-date_fin_str = date_fin.strftime('%Y-%m-%d')
+date_fin_str =  "2022-01-20" #date_fin.strftime('%Y-%m-%d')
 
 # Convertir les chaînes de caractères en objets datetime
 date_debut = datetime.strptime(date_debut_str, "%Y-%m-%d")
@@ -100,58 +100,26 @@ holidays = ['2022-01-01', '2022-12-25']
 action = ['PE500.PA','PANX.PA','LQQ.PA','EWLD.PA']
 
 # Date de recherche
-
 date = '2023-06-25'
 
 #-------------------------------Affichage et recherche du prix de l'action à un jour J--------------------------------------------
-"""
+#------------------------------- Creation du fichier csv --------------------------------------------
 
-# Nouvelle liste pour stocker les sommes quotidiennes
-sommes_quotidiennes = []
-# Liste pour stocker les dates correspondantes
-dates_correspondantes = []
-
-# Boucle à travers chaque jour
-for i in range(nombre_de_jours + 1):  # +1 pour inclure également la date de début
-    date_courante = (date_debut + timedelta(days=i)).strftime('%Y-%m-%d')
-    dates_correspondantes.append(date_courante)
-    
-    somme_valeur_total_jour = 0  # Initialiser la somme pour la journée
-    
-    for action_ticker in action:
-        valeur_total = calcul_quantite(date_courante, action_ticker)
-        somme_valeur_total_jour += valeur_total
-
-    # Ajouter la somme de la journée à la liste
-    sommes_quotidiennes.append(somme_valeur_total_jour)
-    
-# Afficher les sommes quotidiennes et trouver la date correspondante à la valeur maximale
-valeur_maximale = max(sommes_quotidiennes)
-indice_max = sommes_quotidiennes.index(valeur_maximale)
-date_maximale = dates_correspondantes[indice_max]
-
-# Afficher la valeur maximale et la date correspondante
-print(f"\nLa valeur maximale dans la liste 'sommes_quotidiennes' est : {valeur_maximale} €")
-print(f"La date correspondante est : {date_maximale}")
-
-
-# Afficher les sommes quotidiennes
-for i, somme_jour in enumerate(sommes_quotidiennes, start=1):
-    print(f"Somme des 'valeur_total' pour le jour {date_courante}: {somme_jour} €")
-
-
-"""
-#--------------------------------------------------------------------------------------------------------------------------------
 try:
     df_valeur_portfolio = pd.read_csv('Valeur_portfolio.csv')
 except FileNotFoundError:
     # Si le fichier n'existe pas encore, créer un DataFrame vide
     df_valeur_portfolio = pd.DataFrame(columns=['Date', 'Somme_valeur_total'])
 
+#------------------------------- Debut de la vérification --------------------------------------------
+
+#------------------------------- Creation de liste --------------------------------------------
+
 # Initialiser les listes des dates et sommes
 dates_portfolio = df_valeur_portfolio['Date'].tolist()
 sommes_portfolio = df_valeur_portfolio['Somme_valeur_total'].tolist()
 
+#------------------------------- Boucle a travers la liste --------------------------------------------
 # Boucle à travers chaque jour
 for i in range(nombre_de_jours + 1):  # +1 pour inclure également la date de début
     date_courante = (date_debut + timedelta(days=i)).strftime('%Y-%m-%d')
@@ -163,18 +131,14 @@ for i in range(nombre_de_jours + 1):  # +1 pour inclure également la date de d�
     
     # Si la date_courante n'est pas présente dans "Valeur_portfolio", effectuer la recherche de valeur
     somme_valeur_total_jour = 0  # Initialiser la somme pour la journée
-    
-    for action_ticker in action:
-        valeur_total = calcul_quantite(date_courante, action_ticker)
-        somme_valeur_total_jour += valeur_total
-    
+
     # Vérifier si la somme_valeur_total_jour est différente de 0
     if somme_valeur_total_jour == 0:
         print(f"La somme_valeur_total_jour pour la date {date_courante} est 0. Effectuer une nouvelle recherche de valeur.")
         
-        # Répéter la recherche de valeur jusqu'à ce que la somme_valeur_total_jour soit différente de 0
+        # Répéter la recherche de valeur pour vérifier ce que la somme_valeur_total_jour soit différente de 0
         for action_ticker in action:
-            valeur_total = calcul_quantite(date_courante, action_ticker)
+            valeur_total = calcul_valeur_portefeuille(date_courante, action_ticker)
             somme_valeur_total_jour += valeur_total
         print(f"Nouvelle somme_valeur_total_jour pour la date {date_courante} : {somme_valeur_total_jour}")
     
@@ -192,3 +156,9 @@ df_valeur_portfolio = pd.DataFrame({
 df_valeur_portfolio.to_csv('Valeur_portfolio.csv', index=False)
 
 #--------------------------------------------------------------------------------------------------------------------------------
+"""
+date_limite = "20/01/2022"
+soustraction_resultat = calcul_soustraction('Data/Data.csv', date_limite)
+
+print(f"Le résultat de la soustraction jusqu'à la date {date_limite} est : {soustraction_resultat}")
+"""
