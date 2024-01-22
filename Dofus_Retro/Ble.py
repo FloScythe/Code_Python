@@ -80,6 +80,7 @@ class ModelDetector:
         self.threshold = threshold
 
     def detect(self, X_CONSTANTE_2, Y_CONSTANTE_2):
+
         # Capturez une capture d'écran
         screenshot = ImageGrab.grab()
 
@@ -89,40 +90,35 @@ class ModelDetector:
         # Recherchez la correspondance de chaque modèle dans la capture d'écran
         found = False
         for template_idx, template in enumerate(self.templates):
-            # Try multiple scales
-            for scale in numpy.linspace(0.2, 1.0, 20)[::-1]:
-                # Resize the screenshot to the current scale
-                resized_screenshot = cv2.resize(screenshot, None, fx=scale, fy=scale)
-                result = cv2.matchTemplate(resized_screenshot, template, self.method)
+            result = cv2.matchTemplate(screenshot, template, self.method)
 
-                # If the resized screenshot is smaller than the template, break the loop
-                if resized_screenshot.shape[0] < template.shape[0] or resized_screenshot.shape[1] < template.shape[1]:
-                    break
+            # Obtenez les coordonnées du match avec la correspondance maximale
+            location = numpy.where(result >= self.threshold)
+            for point in zip(*location[::-1]):
+                # Ajuster les coordonnées relatives en utilisant les coordonnées de capture d'écran
+                X_CONSTANTE, Y_CONSTANTE = -80, 100
+                x, y = point[0] - int(template.shape[1] / 2) - X_CONSTANTE, point[1] - int(
+                    template.shape[0] / 2) + Y_CONSTANTE
 
-                # Obtenez les coordonnées du match avec la correspondance maximale
-                location = numpy.where(result >= self.threshold)
-                for point in zip(*location[::-1]):
-                    # Ajuster les coordonnées relatives en utilisant les coordonnées de capture d'écran
-                    X_CONSTANTE, Y_CONSTANTE = 0, 0
-                    x, y = int(point[0] / scale) - int(template.shape[1] / 2) - X_CONSTANTE, int(
-                        point[1] / scale) - int(
-                        template.shape[0] / 2) + Y_CONSTANTE
+                # Obtenir les coordonnées relatives
+                relative_x = int((x / screenshot.shape[1]) * screen_width)
+                relative_y = int((y / screenshot.shape[0]) * screen_height)
 
-                    # Obtenir les coordonnées relatives
-                    relative_x = int((x / screenshot.shape[1]) * screen_width)
-                    relative_y = int((y / screenshot.shape[0]) * screen_height)
+                # Utiliser les coordonnées relatives pour déplacer la souris
+                pyautogui.moveTo(relative_x, relative_y, duration=0.3)
 
-                    # Utiliser les coordonnées relatives pour déplacer la souris
-                    pyautogui.moveTo(relative_x, relative_y, duration=0.3)
-                    pyautogui.click()
-                    # X_CONSTANTE_2, Y_CONSTANTE_2 = 10, 140
-                    pyautogui.move(X_CONSTANTE_2, Y_CONSTANTE_2, duration=0.2)
-                    time.sleep(0.2)
-                    pyautogui.click()
+                # Attendre 5 secondes
+                pyautogui.click()
+                # X_CONSTANTE_2, Y_CONSTANTE_2 = 10, 140
+                pyautogui.move(X_CONSTANTE_2, Y_CONSTANTE_2, duration=0.2)
+                time.sleep(0.2)
+                pyautogui.click()
 
-                    found = True
-                    return found
+                found = True
+                return found
+                # self.show_template(screenshot, point, template)
 
+        # Si un modèle est trouvé, attendez 2 secondes
         print("Rien trouvé...")
 
 
