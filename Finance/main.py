@@ -58,7 +58,7 @@ for date in  pd.date_range(start=premiere_date, end=date_specifiee - pd.Timedelt
             valeur_actions_date = data.loc[date, ticker] if date in data.index else data[ticker].shift(-1).loc[:date].dropna().iloc[-1]
             #print(f"La valeur de l'action {ticker} est de : {valeur_actions_date}")
             
-        valeur_ticker = valeur_actions_date*somme_action
+        valeur_ticker = round(valeur_actions_date*somme_action,3)
         somme_journalier.append(valeur_ticker)
         #print(somme_journalier)
 
@@ -88,5 +88,5 @@ df_resultats = pd.DataFrame(resultats)
 
 # Enregistrer le DataFrame dans un fichier Excel
 csv_path = 'Rendement.csv'
-df_resultats.to_csv(csv_path, index=False)
+df_resultats.to_csv(csv_path, index=False,sep=";")
 print(f"Les résultats ont été enregistrés dans {csv_path}")
