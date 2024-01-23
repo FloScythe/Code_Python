@@ -8,76 +8,85 @@ import os
 logging.basicConfig(filename='logfile.log', level=logging.ERROR)
 
 file_path = 'Data/Data.csv'
+
+#Date du jour
 date_specifiee = datetime.today()
 
-df = pd.read_csv(file_path, delimiter=';')
+#Date pour les tests
+#date_specifiee = datetime(2022,1,21)
 
+df = pd.read_csv(file_path, delimiter=';')
 df['Date'] = pd.to_datetime(df['Date'])
-df = df.sort_values(by='Date')
 
 #--------------------------------------------------------------------------------
 # Utilisation de yf.download pour récupérer les données en une seule requête
 tickers = df['Tickers'].unique().tolist()
 tickers.remove('Cash')
-print(tickers)
-try:
-    data = yf.download(tickers, start=df['Date'].min(), end=date_specifiee)['Close']
-except Exception as e:
-    logging.error(f"Erreur lors de la récupération des données : {str(e)}")
-    data = pd.DataFrame()
-
+#print(tickers)
+data = yf.download(tickers, start=df['Date'].min(), end=date_specifiee)['Close'].round(3)
+#print(data)
 #--------------------------------------------------------------------------------
-# Créer une liste pour stocker les résultats de chaque jour
-resultats_liste = []
 
 # Récupérer la première date présente dans le fichier "Data.CSV"
 premiere_date = df['Date'].min()
+"""
+#Date pour les tests
+premiere_date = datetime(2022,1,19)
+"""
+# Créer une liste pour stocker les données
+resultats = []
 
-# Boucle à travers les jours pour calculer les valeurs
-for date in pd.date_range(start=premiere_date, end=date_specifiee, freq='D'):
+for date in  pd.date_range(start=premiere_date, end=date_specifiee - pd.Timedelta(days=1), freq='D'):
+    #print("\n",date)
     # Filtrer le DataFrame pour la date actuelle
     df_date = df[df['Date'] <= date]
-
-    # Filtrer uniquement les lignes d'achat
-    achats_df = df_date[df_date['Action'] == 'Achat']
+    
+    df_cash = df_date[df_date['Tickers']=='Cash']
+    cash = df_cash['Quantite'].sum()
+    #print("Le total investi :",cash)
+    
+    somme_journalier = []
+    for ticker in tickers :
+        somme_action = df_date[df_date['Tickers'] == ticker]['Quantite'].sum()
+        #print(f"Le nombre d'action {ticker} est de : {somme_action}")
+        try :
+            #Trouver la valeur de l'action à une date précise
+            valeur_actions_date = data.loc[date, ticker]
+            #print(f"La valeur de l'action {ticker} est de : {valeur_actions_date}")
+        except KeyError :
+            # Si une erreur KeyError est levée, sélectionner la valeur précédente dans le tableau "data" en utilisant shift(-1)
+            valeur_actions_date = data.loc[date, ticker] if date in data.index else data[ticker].shift(-1).loc[:date].dropna().iloc[-1]
+            #print(f"La valeur de l'action {ticker} est de : {valeur_actions_date}")
+            
+        valeur_ticker = valeur_actions_date*somme_action
+        somme_journalier.append(valeur_ticker)
+        #print(somme_journalier)
 
     # Calculer la somme des espèces restantes
     somme_depot = df_date[df_date['Action'] == 'Depot']['Montant'].sum()
     somme_achat = df_date[df_date['Action'] == 'Achat']['Montant'].sum()
     somme_vente = df_date[df_date['Action'] == 'Vente']['Montant'].sum()
-    somme_especes = somme_depot - somme_achat - somme_vente
+    restant_cash = somme_depot - somme_achat - somme_vente
+    #print("Le total restant :",restant_cash)
     
-    # Calculer les valeurs pour la date actuelle (similaire à votre code existant)
-    valeur_portefeuille = 0  # Initialiser à une valeur par défaut
+    valeur_portefeuille = sum(somme_journalier,restant_cash)
+    #print("La valeur du portefeuille est de : ",valeur_portefeuille)
     
-    if not data.empty:
-        # Obtenez la valeur de l'action pour la date spécifiée
-        for ticker in tickers:
-            try:
-                valeur_actions_date = data.loc[date, ticker]
-                # Calculer le produit du nombre d'actions par la valeur de l'action à la date spécifiée
-                print(date)
-                print(f"{ticker} : {achats_df[achats_df['Tickers'] == ticker]['Quantite'].sum()} à la valeur : {valeur_actions_date}")
+    # Ajouter les résultats à la liste
+    resultats.append({
+        'Date': date, 
+        'Valeur du portefeuille': valeur_portefeuille, 
+        'Valeur investie': cash
+        })
 
-                produit_par_action = achats_df[achats_df['Tickers'] == ticker]['Quantite'].sum() * valeur_actions_date
-                valeur_portefeuille += produit_par_action
-                print(f"La valeur du portefeuille : {valeur_portefeuille}")
-            except KeyError:
-                # Gérer l'absence de la date dans l'index de data
-                pass
-    
-    # Ajouter les valeurs à la liste des résultats
-    resultats_liste.append({
-        'Date': date,
-        'Valeur du portefeuille': valeur_portefeuille + somme_especes,
-        'Somme des dépôts': somme_depot
-    })
-
-# Créer un DataFrame à partir de la liste des résultats
-resultats_df = pd.DataFrame(resultats_liste)
+    # Ajouter 15 "#" entre chaque itération
+    #print("#" * 15)
+        
+#--------------------------------------------------------------------------------
+# Créer un DataFrame à partir de la liste de résultats
+df_resultats = pd.DataFrame(resultats)
 
 # Enregistrer le DataFrame dans un fichier Excel
-fichier_excel = 'resultats_portefeuille.xlsx'
-resultats_df.to_excel(fichier_excel, index=False)
-
-print(f"Données enregistrées dans {fichier_excel}")
+csv_path = 'Rendement.csv'
+df_resultats.to_csv(csv_path, index=False)
+print(f"Les résultats ont été enregistrés dans {csv_path}")
