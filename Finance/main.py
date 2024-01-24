@@ -101,6 +101,7 @@ df_resultats.to_csv(csv_path, index=False,sep=";")
 print(f"Les résultats ont été enregistrés dans {csv_path}")
 #--------------------------------------------------------------------------------
 
+#Calculer la performance
 df = pd.read_csv(csv_path, delimiter=';')
 df['Date'] = pd.to_datetime(df['Date'])
 
@@ -117,8 +118,6 @@ df_filtre['HP'] = round(1 + (df_filtre['Valeur du portefeuille'] - (df_filtre['V
 df_filtre.loc[df_filtre.index[0], 'HP'] = 1
 
 df_filtre.to_csv(csv_path, index=False,sep=";")
-
-#--------------------------------------------------------------------------------
 
 df = pd.read_csv(csv_path, delimiter=';')
 df['Date'] = pd.to_datetime(df['Date'])
