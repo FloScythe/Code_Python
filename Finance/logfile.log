@@ -1,7 +1,0 @@
-ERROR:yfinance:
-1 Failed download:
-ERROR:yfinance:['PE500.PA']: Exception('%ticker%: Request Failed')
-ERROR:yfinance:
-2 Failed downloads:
-ERROR:yfinance:['PE500.PA']: Exception('%ticker%: Request Failed')
-ERROR:yfinance:['EWLD.PA']: Exception('%ticker%: Error occurred while retrieving timeseries, keys: [RedisKey [key=TF[1,YF_HIST][0P00013BN3], cluster=finance]]')
