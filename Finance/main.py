@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Thu Jan 25 23:30:21 2024
 
-@author: flos
 """
 
 import pandas as pd
 import yfinance as yf
 from datetime import datetime
+from tqdm import tqdm
 
 def charger_donnees_csv(file_path):
     df = pd.read_csv(file_path, delimiter=';')
@@ -64,6 +63,11 @@ def calculer_repartition_ticker(tickers, somme_journalier, valeur_portefeuille):
         #print(f"La part de {ticker} est de : {repartition}%")
     return repartitions
 
+def sauvegarder_resultats(resultats, csv_path):
+    df_resultats = pd.DataFrame(resultats)
+    df_resultats.to_csv(csv_path, index=False, sep=";")
+    print(f"Les résultats ont été enregistrés dans {csv_path}")
+
 def calculer_performance(df, date_specifiee):
     df['Date'] = pd.to_datetime(df['Date'])
     df_filtre = df[df['Date'] <= date_specifiee]
@@ -89,27 +93,36 @@ def calculer_performance(df, date_specifiee):
 
 
 # Utilisation des fonctions
-file_path = 'Data/Data.csv'
-csv_path = 'Rendement.csv'
+with tqdm(total=100, desc="Progression") as pbar:
+    file_path = 'Data/Data.csv'
+    csv_path = 'Rendement.csv'
 
-start_date = charger_donnees_csv(file_path)['Date'].min()
-end_date = datetime.today()
-
-tickers = charger_donnees_csv(file_path)['Tickers'].unique().tolist()
-tickers.remove('Cash')
-
-
-df = charger_donnees_csv(file_path)
-
-data = recuperer_donnees_yfinance(tickers, start_date, end_date)
-
-resultats, somme_journalier = calculer_valeur_journaliere(df, tickers, data, start_date, end_date)
-sauvegarder_resultats(resultats, csv_path)
-
-
-repartitions = calculer_repartition_ticker(tickers, somme_journalier, resultats[-1]['Valeur du portefeuille'])
-calculer_performance(pd.read_csv(csv_path, delimiter=';'), end_date)
+    start_date = charger_donnees_csv(file_path)['Date'].min()
+    end_date = datetime.today()
+    
+    tickers = charger_donnees_csv(file_path)['Tickers'].unique().tolist()
+    tickers.remove('Cash')
+    
+    
+    df = charger_donnees_csv(file_path)
+    
+    data = recuperer_donnees_yfinance(tickers, start_date, end_date)
+    
+    resultats, somme_journalier = calculer_valeur_journaliere(df, tickers, data, start_date, end_date)
+    sauvegarder_resultats(resultats, csv_path)
+    
+    
+    repartitions = calculer_repartition_ticker(tickers, somme_journalier, resultats[-1]['Valeur du portefeuille'])
+    calculer_performance(pd.read_csv(csv_path, delimiter=';'), end_date)
+    
+    resultats, somme_journalier = calculer_valeur_journaliere(df, tickers, data, start_date, end_date)
+    sauvegarder_resultats(resultats, csv_path)
+    pbar.update(50)  # Mettez à jour la barre de progression à 50%
+    
+    repartitions = calculer_repartition_ticker(tickers, somme_journalier, resultats[-1]['Valeur du portefeuille'])
+    calculer_performance(pd.read_csv(csv_path, delimiter=';'), end_date)
+    pbar.update(50)  # Mettez à jour la barre de progression à 100%
 
 valeur_portefeuille = resultats[-1]['Valeur du portefeuille']
 investi = resultats[-1]['Valeur investie']
-#gain_realise = 
+

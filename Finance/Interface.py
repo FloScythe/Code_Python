@@ -1,81 +1,52 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QHBoxLayout, QVBoxLayout, QTableWidget, QTabWidget
-#------------------------------------------------------------------------------
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QTableWidget, QTableWidgetItem, QVBoxLayout, QHBoxLayout, QWidget
 
-class Fenetre(QWidget):
-    
+class MyWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.title = 'Choisir un fichier'
-        self.left = 10
-        self.top = 10
-        self.width = 640
-        self.height = 480
-        self.initUI()
+        self.setWindowTitle("Interface PyQt5")
+        self.setGeometry(100, 100, 400, 300)
 
-    def initUI(self):
-        # Ajout du bouton Selection
-        btn_selection = QPushButton('Selection', self)
-        btn_selection.move(400, 450)
-        #btn_selection.clicked.connect()
+        # Création des boutons
+        button1 = QPushButton("Bouton 1", self)
+        button2 = QPushButton("Bouton 2", self)
+        button3 = QPushButton("Bouton 3", self)
+        button4 = QPushButton("Bouton 4", self)
+
+        # Création du tableau
+        table = QTableWidget(self)
+        table.setColumnCount(1)
+        table.setRowCount(5)
+        table.setHorizontalHeaderLabels(["Table"])
         
-        btn_quitter = QPushButton('Quitter', self)
-        btn_quitter.move(500, 450)
-        btn_quitter.clicked.connect(self.closeApplication)
-
-        # Création des layouts
+        #Création des layouts
         layout_general = QHBoxLayout()
-        layout_1 = QVBoxLayout()
-        layout_2 = QVBoxLayout()
-        """          
-        # Ajout de la table
-        self.tableWidget = QTableWidget(self)
-        onglets = QTabWidget(self)
-        onglets.addTab(self.tableWidget, "Test")
-        """  
-
-        # Ajout des boutons au premier layout vertical
-        layout_general.addWidget(btn_quitter)
-        layout_general.addWidget(btn_selection)
-
-        # Ajout d'autres widgets (si nécessaire) au deuxième layout vertical
-        # Exemple : 
-        widget = QWidget()
-        layout_1.addWidget(widget)
-
-        # Ajout d'autres widgets (si nécessaire) au deuxième layout vertical
-        # Exemple : 
-        widget = QWidget()
-        layout_2.addWidget(widget)
-
-        # Configuration du layout général pour la fenêtre
-        self.setLayout(layout_general)
+        layout_nav = QVBoxLayout()
+        layout_table = QVBoxLayout()
         
-        # Ajout des boutons au premier layout vertical
-        layout_1.addWidget(btn_quitter)
-        layout_1.addWidget(btn_selection)
-    
-    def closeApplication(self):
-        QApplication.closeAllWindows()
-           
-    """
-    def mousePressEvent(self, event):
-        print("appui souris")
+        #Ajout des layouts au layout general
+        layout_general.addLayout(layout_nav)
+        layout_general.addLayout(layout_table)
         
-    """
-    
-#------------------------------------------------------------------------------    
+        # Ajout des boutons au layout vertical
+        layout_nav.addWidget(button1)
+        layout_nav.addWidget(button2)
+        layout_nav.addWidget(button3)
+        layout_nav.addWidget(button4)
+        layout_table.addWidget(table)
 
-# Première étape : création d'une application Qt avec QApplication
-#    afin d'avoir un fonctionnement correct avec IDLE ou Spyder
-#    on vérifie s'il existe déjà une instance de QApplication
-app = QApplication.instance() 
-if not app: # sinon on crée une instance de QApplication
+        # Création du widget central
+        central_widget = QWidget()
+        central_widget.setLayout(layout_nav)
+        self.setCentralWidget(central_widget)
+
+        # Bouton "Quitter"
+        quit_button = QPushButton("Quitter", self)
+        quit_button.move(300, 250)
+        quit_button.clicked.connect(self.close)
+
+if __name__ == "__main__":
     app = QApplication(sys.argv)
-#------------------------------------------------------------------------------    
-
-fen = Fenetre()
-
-fen.show()
-# exécution de l'application, l'exécution permet de gérer les événements
-app.exec_()
+    window = MyWindow()
+    window.show()
+    sys.exit(app.exec_())
