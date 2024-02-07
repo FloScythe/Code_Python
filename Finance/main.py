@@ -1,13 +1,18 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-
-"""
 
 import pandas as pd
 import yfinance as yf
 from datetime import datetime
 from tqdm import tqdm
+
+def restant_cash(df):
+    df = charger_donnees_csv(file_path)
+    somme_depot = df[df['Action'] == 'Depot']["Montant"].sum()
+    somme_achat = df[df['Action'] == 'Achat']["Montant"].sum()
+    somme_vente = df[df['Action'] == 'Vente']["Montant"].sum()
+    restant_cash = round(somme_depot - somme_achat - somme_vente,3)
+    return restant_cash
 
 def charger_donnees_csv(file_path):
     df = pd.read_csv(file_path, delimiter=';')
@@ -25,6 +30,7 @@ def calculer_valeur_journaliere(df, tickers, data, start_date, end_date):
         df_date = df[df['Date'] <= date]
         df_cash = df_date[df_date['Tickers']=='Cash']
         cash = df_cash['Quantite'].sum()
+        
         somme_journalier = []
         for ticker in tickers:
             somme_action = df_date[df_date['Tickers'] == ticker]['Quantite'].sum()
@@ -49,11 +55,6 @@ def calculer_valeur_journaliere(df, tickers, data, start_date, end_date):
 
     return resultats, somme_journalier
 
-def sauvegarder_resultats(resultats, csv_path):
-    df_resultats = pd.DataFrame(resultats)
-    df_resultats.to_csv(csv_path, index=False, sep=";")
-    #print(f"Les résultats ont été enregistrés dans {csv_path}")
-
 def calculer_repartition_ticker(tickers, somme_journalier, valeur_portefeuille):
     repartitions = []
     for i, ticker in enumerate(tickers):
@@ -66,7 +67,7 @@ def calculer_repartition_ticker(tickers, somme_journalier, valeur_portefeuille):
 def sauvegarder_resultats(resultats, csv_path):
     df_resultats = pd.DataFrame(resultats)
     df_resultats.to_csv(csv_path, index=False, sep=";")
-    print(f"Les résultats ont été enregistrés dans {csv_path}")
+    print(f"\nLes resultats ont ete enregistres dans {csv_path}\n")
 
 def calculer_performance(df, date_specifiee):
     df['Date'] = pd.to_datetime(df['Date'])
@@ -85,12 +86,17 @@ def calculer_performance(df, date_specifiee):
     for date in df_annee:
         df_filtre = df[df['Date'].dt.year == date]
         performance = (df_filtre['HP'].prod() - 1)
-        performance_percent = round(performance * 100, 2)
-        #print(f"la performance de l'année {date} : {performance_percent}%")
+        #performance_percent = round(performance * 100, 2)
+        #print(f"la performance de l'annee {date} : {performance_percent}%")
 
-    performance = round((df_filtre['Valeur du portefeuille'].iloc[-1] / df_filtre['Valeur investie'].iloc[0] - 1) * 100, 2)
-    #print(f"la performance toutes années confondues : {performance}%")
+    #performance = round((df_filtre['Valeur du portefeuille'].iloc[-1] / df_filtre['Valeur investie'].iloc[0] - 1) * 100, 2)
+    #print(f"la performance toutes annees confondues : {performance}%")
 
+
+def patrimoine_max(file_path):
+    df = charger_donnees_csv(file_path)
+    patrimoine_max = df['Valeur du portefeuille'].max()
+    return patrimoine_max
 
 # Utilisation des fonctions
 with tqdm(total=100, desc="Progression") as pbar:
@@ -102,7 +108,6 @@ with tqdm(total=100, desc="Progression") as pbar:
     
     tickers = charger_donnees_csv(file_path)['Tickers'].unique().tolist()
     tickers.remove('Cash')
-    
     
     df = charger_donnees_csv(file_path)
     
@@ -123,6 +128,10 @@ with tqdm(total=100, desc="Progression") as pbar:
     calculer_performance(pd.read_csv(csv_path, delimiter=';'), end_date)
     pbar.update(50)  # Mettez à jour la barre de progression à 100%
 
+
+#Creation d'un fichier Portfolio.csv
+
 valeur_portefeuille = resultats[-1]['Valeur du portefeuille']
 investi = resultats[-1]['Valeur investie']
-
+cash = restant_cash(file_path)
+patrimoine_max = patrimoine_max(csv_path)

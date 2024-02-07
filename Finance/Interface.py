@@ -108,11 +108,23 @@ class MaFenetre(QWidget):
 
         # Après l'exécution, charger le fichier "Rendement.csv" dans le QTableWidget
         self.chargerContenuCSV("Rendement.csv")
-        
+    
+    """
+    Liée l'interface Ajouter_transaction a la fenetre principale'
+    """
     def ajouter_Transaction(self):
         # Créer et afficher la fenêtre d'ajout de transaction
         ajout_transaction_fenetre = AjoutTransactionFenetre(self)
         ajout_transaction_fenetre.show()
+        
+        # Cacher la fenêtre principale
+        self.hide()
+
+
+    def reafficher(self):
+        # Réafficher la fenêtre principale lorsque la fenêtre "Ajouter transaction" est fermée
+        self.show()
+        
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
